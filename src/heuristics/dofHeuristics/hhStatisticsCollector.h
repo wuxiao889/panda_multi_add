@@ -5,30 +5,31 @@
 #ifndef PANDAPIENGINE_HHSTATISTICSCOLLECTOR_H
 #define PANDAPIENGINE_HHSTATISTICSCOLLECTOR_H
 
+#include "../../Model.h"
 #include "../rcHeuristics/hhRC2.h"
 #include "hhDOfree.h"
-#include "../../Model.h"
 #include <vector>
 
 namespace progression {
 
-    class hhStatisticsCollector {
-    public:
-        hhStatisticsCollector(Model *htn, searchNode *n, int depth);
+class hhStatisticsCollector {
+public:
+  hhStatisticsCollector(Model *htn, searchNode *n, int depth);
 
-        void setHeuristicValue(searchNode *n);
+  void setHeuristicValue(searchNode *n);
 
-        void setHeuristicValue(searchNode *n, searchNode *parent, int action);
+  void setHeuristicValue(searchNode *n, searchNode *parent, int action);
 
-        void setHeuristicValue(searchNode *n, searchNode *parent, int absTask, int method);
+  void setHeuristicValue(searchNode *n, searchNode *parent, int absTask,
+                         int method);
 
-        int maxDepth;
-        Model *m;
+  int maxDepth;
+  Model *m;
 
-        // heuristics
-        hhRC2<hsLmCut> *hRcLmc;
-        std::vector<hhDOfree*> ilpHs;
-    };
-}
+  // heuristics
+  hhRC2<hsLmCut> *hRcLmc;
+  std::vector<hhDOfree *> ilpHs;
+};
+} // namespace progression
 
-#endif //PANDAPIENGINE_HHSTATISTICSCOLLECTOR_H
+#endif // PANDAPIENGINE_HHSTATISTICSCOLLECTOR_H

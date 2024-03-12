@@ -75,22 +75,27 @@ extern void EpdConvert(double value, EpDouble *epd);
 extern void EpdMultiply(EpDouble *epd1, double value);
 extern void EpdMultiply2(EpDouble *epd1, EpDouble const *epd2);
 extern void EpdMultiply2Decimal(EpDouble *epd1, EpDouble const *epd2);
-extern void EpdMultiply3(EpDouble const *epd1, EpDouble const *epd2, EpDouble *epd3);
-extern void EpdMultiply3Decimal(EpDouble const *epd1, EpDouble const *epd2, EpDouble *epd3);
+extern void EpdMultiply3(EpDouble const *epd1, EpDouble const *epd2,
+                         EpDouble *epd3);
+extern void EpdMultiply3Decimal(EpDouble const *epd1, EpDouble const *epd2,
+                                EpDouble *epd3);
 extern void EpdDivide(EpDouble *epd1, double value);
 extern void EpdDivide2(EpDouble *epd1, EpDouble const *epd2);
-extern void EpdDivide3(EpDouble const *epd1, EpDouble const *epd2, EpDouble *epd3);
+extern void EpdDivide3(EpDouble const *epd1, EpDouble const *epd2,
+                       EpDouble *epd3);
 extern void EpdAdd(EpDouble *epd1, double value);
 extern void EpdAdd2(EpDouble *epd1, EpDouble const *epd2);
 extern void EpdAdd3(EpDouble const *epd1, EpDouble const *epd2, EpDouble *epd3);
 extern void EpdSubtract(EpDouble *epd1, double value);
 extern void EpdSubtract2(EpDouble *epd1, EpDouble const *epd2);
-extern void EpdSubtract3(EpDouble const *epd1, EpDouble const *epd2, EpDouble *epd3);
+extern void EpdSubtract3(EpDouble const *epd1, EpDouble const *epd2,
+                         EpDouble *epd3);
 extern void EpdPow2(int n, EpDouble *epd);
 extern void EpdPow2Decimal(int n, EpDouble *epd);
 extern void EpdNormalize(EpDouble *epd);
 extern void EpdNormalizeDecimal(EpDouble *epd);
-extern void EpdGetValueAndDecimalExponent(EpDouble const *epd, double *value, int *exponent);
+extern void EpdGetValueAndDecimalExponent(EpDouble const *epd, double *value,
+                                          int *exponent);
 extern int EpdGetExponent(double value);
 extern int EpdGetExponentDecimal(double value);
 extern void EpdMakeInf(EpDouble *epd, int sign);

@@ -14,23 +14,24 @@ namespace progression {
 
 class IntPairHeap {
 private:
-    tHVal* keys;
-    tHVal* vals;
+  tHVal *keys;
+  tHVal *vals;
 
-    int nextIndex;
-    int arraySize;
+  int nextIndex;
+  int arraySize;
+
 public:
-	IntPairHeap(int size);
-	virtual ~IntPairHeap();
+  IntPairHeap(int size);
+  virtual ~IntPairHeap();
 
-	bool isEmpty();
-	int size();
-	void clear();
+  bool isEmpty();
+  int size();
+  void clear();
 
-	void add(tHVal key, tHVal val);
-	void pop();
-    tHVal topVal();
-    tHVal topKey();
+  void add(tHVal key, tHVal val);
+  void pop();
+  tHVal topVal();
+  tHVal topKey();
 };
 
 } /* namespace progression */

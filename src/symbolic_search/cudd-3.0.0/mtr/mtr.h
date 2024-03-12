@@ -73,16 +73,15 @@ extern "C" {
 /*---------------------------------------------------------------------------*/
 
 /* Flag definitions */
-#define MTR_DEFAULT     0x00000000
-#define MTR_TERMINAL    0x00000001
-#define MTR_SOFT        0x00000002
-#define MTR_FIXED       0x00000004
-#define MTR_NEWNODE     0x00000008
+#define MTR_DEFAULT 0x00000000
+#define MTR_TERMINAL 0x00000001
+#define MTR_SOFT 0x00000002
+#define MTR_FIXED 0x00000004
+#define MTR_NEWNODE 0x00000008
 
 /*---------------------------------------------------------------------------*/
 /* Stucture declarations                                                     */
 /*---------------------------------------------------------------------------*/
-
 
 /*---------------------------------------------------------------------------*/
 /* Type declarations                                                         */
@@ -96,7 +95,6 @@ typedef struct MtrNode_ MtrNode;
 /*---------------------------------------------------------------------------*/
 /* Variable declarations                                                     */
 /*---------------------------------------------------------------------------*/
-
 
 /*---------------------------------------------------------------------------*/
 /* Macro declarations                                                        */
@@ -118,7 +116,8 @@ MtrNode *Mtr_CreateLastChild(MtrNode *parent);
 void Mtr_MakeNextSibling(MtrNode *first, MtrNode *second);
 void Mtr_PrintTree(MtrNode const *node);
 MtrNode *Mtr_InitGroupTree(int lower, int size);
-MtrNode *Mtr_MakeGroup(MtrNode *root, unsigned int low, unsigned int high, unsigned int flags);
+MtrNode *Mtr_MakeGroup(MtrNode *root, unsigned int low, unsigned int high,
+                       unsigned int flags);
 MtrNode *Mtr_DissolveGroup(MtrNode *group);
 MtrNode *Mtr_FindGroup(MtrNode *root, unsigned int low, unsigned int high);
 int Mtr_SwapGroups(MtrNode *first, MtrNode *second);

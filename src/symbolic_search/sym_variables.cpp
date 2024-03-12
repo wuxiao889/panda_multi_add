@@ -182,13 +182,12 @@ BDD SymVariables::getStateBDD(const int *state_bits,
   return res;
 }
 
-
-
 BDD SymVariables::getStateBDD(std::vector<bool> state_vec) const {
   BDD res = oneBDD();
   unordered_set<int> contained_vars;
   for (int i = 0; i < state_vec.size(); i++) {
-	if (state_vec[i] == false) continue;
+    if (state_vec[i] == false)
+      continue;
     int var = model->varOfStateBit[i];
     int val = i - model->firstIndex[var];
     res = res * preconditionBDDs[var_order[var]][val];
@@ -201,13 +200,11 @@ BDD SymVariables::getStateBDD(std::vector<bool> state_vec) const {
     }
   }
 
-
   return res;
 }
 
-
 BDD SymVariables::getPartialStateBDD(const int *state_bits,
-                              int state_bits_size) const {
+                                     int state_bits_size) const {
   BDD res = oneBDD();
   for (int i = 0; i < state_bits_size; i++) {
     int var = model->varOfStateBit[state_bits[i]];
@@ -391,24 +388,23 @@ std::vector<int> SymVariables::getStateFrom(const BDD &bdd) const {
 std::vector<vector<int>> SymVariables::getStatesFrom(const BDD &bdd) const {
   std::vector<vector<int>> res;
   BDD cur = bdd;
-  for (size_t i=0; i < numStates(bdd); i++) {
+  for (size_t i = 0; i < numStates(bdd); i++) {
     vector<int> state = getStateFrom(cur);
-        cur *= !getStateBDD(state);
+    cur *= !getStateBDD(state);
 
-        vector<int> retState;
-        for (int var = 0; var < preconditionBDDs.size(); var++){
-                if (state[var] > model->lastIndex[var] - model->firstIndex[var]) continue;
-                retState.push_back(state[var] + model->firstIndex[var]);
-        }
+    vector<int> retState;
+    for (int var = 0; var < preconditionBDDs.size(); var++) {
+      if (state[var] > model->lastIndex[var] - model->firstIndex[var])
+        continue;
+      retState.push_back(state[var] + model->firstIndex[var]);
+    }
 
-        res.push_back(retState);
+    res.push_back(retState);
 
     if (cur.IsZero())
       return res;
   }
   return res;
 }
-
-
 
 } // namespace symbolic

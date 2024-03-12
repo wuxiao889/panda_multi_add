@@ -14,19 +14,19 @@ namespace progression {
 
 class lookUpTab {
 public:
-	lookUpTab();
-	lookUpTab(int size);
-	virtual ~lookUpTab();
+  lookUpTab();
+  lookUpTab(int size);
+  virtual ~lookUpTab();
 
-	int size = 0;
-	LmMap** lookFor = nullptr;
-	int refCounter = 1;
-	int indexOf(int value);
+  int size = 0;
+  LmMap **lookFor = nullptr;
+  int refCounter = 1;
+  int indexOf(int value);
 
-	void printTab();
+  void printTab();
 
 private:
-	int indexOf(int low, int high, int value);
+  int indexOf(int low, int high, int value);
 };
 
 } /* namespace progression */

@@ -10,22 +10,22 @@
 
 namespace progression {
 
-enum lmConType {atom, conjunctive, disjunctive};
-enum lmType {fact, METHOD, task, LMCUT};
+enum lmConType { atom, conjunctive, disjunctive };
+enum lmType { fact, METHOD, task, LMCUT };
 
 class landmark {
 public:
-	landmark(lmConType connection, lmType type, int size);
-	landmark();
-	virtual ~landmark();
+  landmark(lmConType connection, lmType type, int size);
+  landmark();
+  virtual ~landmark();
 
-	lmConType connection;
-	lmType type;
-	int size = 0;
-	int* lm = nullptr;
+  lmConType connection;
+  lmType type;
+  int size = 0;
+  int *lm = nullptr;
 
-	void printLM();
-    static int coutLM(landmark** lm, lmType type, int size);
+  void printLM();
+  static int coutLM(landmark **lm, lmType type, int size);
 };
 
 } /* namespace progression */

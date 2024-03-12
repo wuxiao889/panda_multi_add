@@ -10,17 +10,17 @@
 namespace progression {
 
 LmMap::LmMap() {
-	// TODO Auto-generated constructor stub
+  // TODO Auto-generated constructor stub
 }
 
 LmMap::LmMap(int key, int size) {
-	this->entry = key;
-	this->size = size;
-	this->containedInLMs = new int[size];
+  this->entry = key;
+  this->size = size;
+  this->containedInLMs = new int[size];
 }
 
 LmMap::~LmMap() {
-	// TODO Auto-generated destructor stub
+  // TODO Auto-generated destructor stub
 }
 
 } /* namespace progression */

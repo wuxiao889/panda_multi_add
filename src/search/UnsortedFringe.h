@@ -15,22 +15,22 @@ namespace progression {
 
 class UnsortedFringe {
 public:
-	UnsortedFringe();
-	virtual ~UnsortedFringe();
+  UnsortedFringe();
+  virtual ~UnsortedFringe();
 
-	void addFirst(searchNode* n);
-	void addLast(searchNode* n);
-	bool empty();
-	searchNode* removeLast();
-	searchNode* removeFirst();
-	int size();
+  void addFirst(searchNode *n);
+  void addLast(searchNode *n);
+  bool empty();
+  searchNode *removeLast();
+  searchNode *removeFirst();
+  int size();
 
 private:
-	UnsrtFringeContainer* firstContainer = nullptr;
-	UnsrtFringeContainer* lastContainer = nullptr;
-	int sizeCounter = 0;
+  UnsrtFringeContainer *firstContainer = nullptr;
+  UnsrtFringeContainer *lastContainer = nullptr;
+  int sizeCounter = 0;
 
-	int currentID = 0;
+  int currentID = 0;
 };
 
 } /* namespace progression */

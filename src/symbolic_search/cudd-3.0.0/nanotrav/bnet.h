@@ -50,9 +50,9 @@
 /* Nested includes                                                           */
 /*---------------------------------------------------------------------------*/
 
-#include "util.h"
-#include "st.h"
 #include "cudd.h"
+#include "st.h"
+#include "util.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -73,7 +73,6 @@ extern "C" {
 /* Type of DD of a node. */
 #define BNET_LOCAL_DD 0
 #define BNET_GLOBAL_DD 1
-
 
 /*---------------------------------------------------------------------------*/
 /* Stucture declarations                                                     */
@@ -96,8 +95,8 @@ extern "C" {
  ** objects of this type.
  */
 typedef struct BnetTabline {
-    char *values;               /**< string of 1, 0, and - */
-    struct BnetTabline *next;   /**< pointer to next table line */
+  char *values;             /**< string of 1, 0, and - */
+  struct BnetTabline *next; /**< pointer to next table line */
 } BnetTabline;
 
 /**
@@ -114,40 +113,40 @@ typedef struct BnetTabline {
  ** associated to different nodes at different times.)
  */
 typedef struct BnetNode {
-    char *name;         /**< name of the output signal */
-    int type;           /**< input, internal, constant, ... */
-    int ninp;           /**< number of inputs to the node */
-    int nfo;            /**< number of fanout nodes for this node */
-    char **inputs;      /**< input names */
-    BnetTabline *f;     /**< truth table for this node */
-    int polarity;       /**< f is the onset (0) or the offset (1) */
-    int active;         /**< node has variable associated to it (1) or not (0) */
-    int var;            /**< %DD variable index associated to this node */
-    DdNode *dd;         /**< decision diagram for the function of this node */
-    int exdc_flag;      /**< whether an exdc node or not */
-    struct BnetNode *exdc; /**< pointer to exdc of dd node */
-    int count;          /**< auxiliary field for %DD dropping */
-    int level;          /**< maximum distance from the inputs */
-    int visited;        /**< flag for search */
-    struct BnetNode *next; /**< pointer to implement the linked list of nodes */
+  char *name;     /**< name of the output signal */
+  int type;       /**< input, internal, constant, ... */
+  int ninp;       /**< number of inputs to the node */
+  int nfo;        /**< number of fanout nodes for this node */
+  char **inputs;  /**< input names */
+  BnetTabline *f; /**< truth table for this node */
+  int polarity;   /**< f is the onset (0) or the offset (1) */
+  int active;     /**< node has variable associated to it (1) or not (0) */
+  int var;        /**< %DD variable index associated to this node */
+  DdNode *dd;     /**< decision diagram for the function of this node */
+  int exdc_flag;  /**< whether an exdc node or not */
+  struct BnetNode *exdc; /**< pointer to exdc of dd node */
+  int count;             /**< auxiliary field for %DD dropping */
+  int level;             /**< maximum distance from the inputs */
+  int visited;           /**< flag for search */
+  struct BnetNode *next; /**< pointer to implement the linked list of nodes */
 } BnetNode;
 
 /**
  ** @brief Very simple boolean network data structure.
  */
 typedef struct BnetNetwork {
-    char *name;         /**< network name: from the .model directive */
-    int npis;           /**< number of primary inputs */
-    int ninputs;        /**< number of inputs */
-    char **inputs;      /**< primary input names: from the .inputs directive */
-    int npos;           /**< number of primary outputs */
-    int noutputs;       /**< number of outputs */
-    char **outputs;     /**< primary output names: from the .outputs directive */
-    int nlatches;       /**< number of latches */
-    char ***latches;    /**< next state names: from the .latch directives */
-    BnetNode *nodes;    /**< linked list of the nodes */
-    st_table *hash;     /**< symbol table to access nodes by name */
-    char *slope;        /**< wire_load_slope */
+  char *name;      /**< network name: from the .model directive */
+  int npis;        /**< number of primary inputs */
+  int ninputs;     /**< number of inputs */
+  char **inputs;   /**< primary input names: from the .inputs directive */
+  int npos;        /**< number of primary outputs */
+  int noutputs;    /**< number of outputs */
+  char **outputs;  /**< primary output names: from the .outputs directive */
+  int nlatches;    /**< number of latches */
+  char ***latches; /**< next state names: from the .latch directives */
+  BnetNode *nodes; /**< linked list of the nodes */
+  st_table *hash;  /**< symbol table to access nodes by name */
+  char *slope;     /**< wire_load_slope */
 } BnetNetwork;
 
 /*---------------------------------------------------------------------------*/
@@ -159,10 +158,10 @@ typedef struct BnetNetwork {
 /*---------------------------------------------------------------------------*/
 
 #ifndef TRUE
-#   define TRUE 1
+#define TRUE 1
 #endif
 #ifndef FALSE
-#   define FALSE 0
+#define FALSE 0
 #endif
 
 /** \cond */
@@ -174,15 +173,19 @@ typedef struct BnetNetwork {
 extern BnetNetwork *Bnet_ReadNetwork(FILE *fp, int pr);
 extern void Bnet_PrintNetwork(BnetNetwork *net);
 extern void Bnet_FreeNetwork(BnetNetwork *net);
-extern int Bnet_BuildNodeBDD(DdManager *dd, BnetNode *nd, st_table *hash, int params, int nodrop);
+extern int Bnet_BuildNodeBDD(DdManager *dd, BnetNode *nd, st_table *hash,
+                             int params, int nodrop);
 extern int Bnet_DfsVariableOrder(DdManager *dd, BnetNetwork *net);
-extern int Bnet_bddDump(DdManager *dd, BnetNetwork *network, char *dfile, int dumpFmt, int reencoded);
-extern int Bnet_bddArrayDump(DdManager *dd, BnetNetwork *network, char *dfile, DdNode **outputs, char **onames, int noutputs, int dumpFmt);
-extern int Bnet_ReadOrder(DdManager *dd, char *ordFile, BnetNetwork *net, int locGlob, int nodrop);
+extern int Bnet_bddDump(DdManager *dd, BnetNetwork *network, char *dfile,
+                        int dumpFmt, int reencoded);
+extern int Bnet_bddArrayDump(DdManager *dd, BnetNetwork *network, char *dfile,
+                             DdNode **outputs, char **onames, int noutputs,
+                             int dumpFmt);
+extern int Bnet_ReadOrder(DdManager *dd, char *ordFile, BnetNetwork *net,
+                          int locGlob, int nodrop);
 extern int Bnet_PrintOrder(BnetNetwork *net, DdManager *dd);
 
 /** \endcond */
-
 
 #ifdef __cplusplus
 } /* end of extern "C" */

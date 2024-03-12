@@ -9,20 +9,18 @@
 
 namespace progression {
 
-hsFilter::hsFilter(Model* sas) {
-	this->m = sas;
-	this->add = new hsAddFF(sas);
+hsFilter::hsFilter(Model *sas) {
+  this->m = sas;
+  this->add = new hsAddFF(sas);
 }
 
-hsFilter::~hsFilter() {
-	delete add;
-}
-int hsFilter::getHeuristicValue(bucketSet& s, noDelIntSet& g) {
-	if (add->getHeuristicValue(s, g) != UNREACHABLE) {
-		return 0;
-	} else {
-		return UNREACHABLE;
-	}
+hsFilter::~hsFilter() { delete add; }
+int hsFilter::getHeuristicValue(bucketSet &s, noDelIntSet &g) {
+  if (add->getHeuristicValue(s, g) != UNREACHABLE) {
+    return 0;
+  } else {
+    return UNREACHABLE;
+  }
 }
 
 } /* namespace progression */

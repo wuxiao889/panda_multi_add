@@ -10,34 +10,34 @@ class OneQueueWAStarFringe;
 #include "../../ProgressionNetwork.h"
 #include <queue>
 
-enum aStar {gValNone, gValPathCosts, gValActionCosts, gValActionPathCosts};
+enum aStar { gValNone, gValPathCosts, gValActionCosts, gValActionPathCosts };
 
 struct TieBreakingNodePointerComaprator {
-	int numOfHeuristics;
-	TieBreakingNodePointerComaprator(int hNum) : numOfHeuristics(hNum){}
-	/* compatator for search node pointers*/
-	bool operator()(const searchNode* a, const searchNode* b) const;
+  int numOfHeuristics;
+  TieBreakingNodePointerComaprator(int hNum) : numOfHeuristics(hNum) {}
+  /* compatator for search node pointers*/
+  bool operator()(const searchNode *a, const searchNode *b) const;
 };
 
 class OneQueueWAStarFringe {
 public:
-    OneQueueWAStarFringe(aStar _aStarOption, int _hWeight, int numberOfHeuristics) : aStarOption(_aStarOption), hWeight(_hWeight), fringe(TieBreakingNodePointerComaprator(numberOfHeuristics)) {};
-    bool isEmpty();
-    searchNode* pop();
-    void push(searchNode* n);
-    int size();
+  OneQueueWAStarFringe(aStar _aStarOption, int _hWeight, int numberOfHeuristics)
+      : aStarOption(_aStarOption), hWeight(_hWeight),
+        fringe(TieBreakingNodePointerComaprator(numberOfHeuristics)){};
+  bool isEmpty();
+  searchNode *pop();
+  void push(searchNode *n);
+  int size();
 
-	void printTypeInfo();
-	
-	
+  void printTypeInfo();
 
 private:
-	aStar aStarOption;
-	int hWeight;
-	
-    
-	priority_queue<searchNode*, vector<searchNode*>, TieBreakingNodePointerComaprator > fringe;
+  aStar aStarOption;
+  int hWeight;
+
+  priority_queue<searchNode *, vector<searchNode *>,
+                 TieBreakingNodePointerComaprator>
+      fringe;
 };
 
-
-#endif //PANDAPIENGINE_ONEQUEUEWASTARFRINGE_H
+#endif // PANDAPIENGINE_ONEQUEUEWASTARFRINGE_H

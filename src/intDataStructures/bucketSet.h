@@ -12,28 +12,29 @@ namespace progression {
 
 class bucketSet {
 private:
-	bool* container;
-	int numSet =0;
-	int containersize;
-	int currentSize;
+  bool *container;
+  int numSet = 0;
+  int containersize;
+  int currentSize;
 
-	int iIter;
-	int numIterated;
+  int iIter;
+  int numIterated;
+
 public:
-	bucketSet();
-	virtual ~bucketSet();
+  bucketSet();
+  virtual ~bucketSet();
 
-	void init(int size);
-	int getSize();
-	void insert(int i);
-	void erase(int i);
-	bool isEmpty();
-	void clear();
-	int getFirst();
-	int getNext();
-	int removeFirst();
-	int removeNext();
-	bool get(int i);
+  void init(int size);
+  int getSize();
+  void insert(int i);
+  void erase(int i);
+  bool isEmpty();
+  void clear();
+  int getFirst();
+  int getNext();
+  int removeFirst();
+  int removeNext();
+  bool get(int i);
 };
 
 } /* namespace progression */

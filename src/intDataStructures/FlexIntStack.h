@@ -12,23 +12,23 @@ namespace progression {
 
 class FlexIntStack {
 private:
-	int* intContainer;
-	int iterI = -1;
-	int containerSize;
-	int currentSize = -1;
+  int *intContainer;
+  int iterI = -1;
+  int containerSize;
+  int currentSize = -1;
+
 public:
-	FlexIntStack();
-	virtual ~FlexIntStack();
+  FlexIntStack();
+  virtual ~FlexIntStack();
 
-	void init(int size);
-	int getSize();
-	void push(int i);
-	int pop();
-	bool isEmpty();
-	void clear();
-	int getFirst();
-	int getNext();
-
+  void init(int size);
+  int getSize();
+  void push(int i);
+  int pop();
+  bool isEmpty();
+  void clear();
+  int getFirst();
+  int getNext();
 };
 
 } /* namespace progression */

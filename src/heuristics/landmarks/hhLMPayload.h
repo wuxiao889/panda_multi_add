@@ -7,9 +7,6 @@
 
 #include "../HeuristicPayload.h"
 
-class hhLMPayload : HeuristicPayload {
+class hhLMPayload : HeuristicPayload {};
 
-};
-
-
-#endif //PANDAPIENGINE_HHLMPAYLOAD_H
+#endif // PANDAPIENGINE_HHLMPAYLOAD_H

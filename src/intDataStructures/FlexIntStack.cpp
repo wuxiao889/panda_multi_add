@@ -11,61 +11,52 @@
 namespace progression {
 
 FlexIntStack::FlexIntStack() {
-	// TODO Auto-generated constructor stub
-
+  // TODO Auto-generated constructor stub
 }
 
-FlexIntStack::~FlexIntStack() {
-	delete[] this->intContainer;
-}
+FlexIntStack::~FlexIntStack() { delete[] this->intContainer; }
 
 void FlexIntStack::init(int size) {
-	this->intContainer = new int[size];
-	this->containerSize = size;
-	this->currentSize = 0;
+  this->intContainer = new int[size];
+  this->containerSize = size;
+  this->currentSize = 0;
 }
 
-int FlexIntStack::getSize() {
-	return currentSize;
-}
+int FlexIntStack::getSize() { return currentSize; }
 
 void FlexIntStack::push(int i) {
-	if (currentSize == containerSize) {
-		int* newContainer = new int[containerSize * 2];
-		memcpy(newContainer, intContainer, sizeof(int) * containerSize);
-		containerSize = containerSize * 2;
-		delete[] intContainer;
-		intContainer = newContainer;
-	}
+  if (currentSize == containerSize) {
+    int *newContainer = new int[containerSize * 2];
+    memcpy(newContainer, intContainer, sizeof(int) * containerSize);
+    containerSize = containerSize * 2;
+    delete[] intContainer;
+    intContainer = newContainer;
+  }
 
-	intContainer[currentSize++] = i;
+  intContainer[currentSize++] = i;
 }
 
 int FlexIntStack::pop() {
-	if (currentSize == 0)
-		return -1;
-	return intContainer[--currentSize];
+  if (currentSize == 0)
+    return -1;
+  return intContainer[--currentSize];
 }
-bool FlexIntStack::isEmpty() {
-	return currentSize == 0;
-}
+bool FlexIntStack::isEmpty() { return currentSize == 0; }
 
-void FlexIntStack::clear() {
-	currentSize = 0;
-}
+void FlexIntStack::clear() { currentSize = 0; }
 
 int FlexIntStack::getFirst() {
-	if (currentSize == 0)
-		return -1;
-	iterI = 0;
-	return intContainer[iterI];
+  if (currentSize == 0)
+    return -1;
+  iterI = 0;
+  return intContainer[iterI];
 }
 
 int FlexIntStack::getNext() {
-	iterI++;
-	if (iterI < currentSize)
-		return intContainer[iterI];
-	else
-		return -1;
+  iterI++;
+  if (iterI < currentSize)
+    return intContainer[iterI];
+  else
+    return -1;
 }
 } /* namespace progression */

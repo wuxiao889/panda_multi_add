@@ -14,19 +14,19 @@ namespace progression {
 
 class UnsrtFringeContainer {
 public:
-	UnsrtFringeContainer(int id);
-	virtual ~UnsrtFringeContainer();
-	searchNode** content;
+  UnsrtFringeContainer(int id);
+  virtual ~UnsrtFringeContainer();
+  searchNode **content;
 
-	bool hasNextContainer = false;
-	bool hasPrevContainer = false;
-	UnsrtFringeContainer* nextContainer = nullptr;
-	UnsrtFringeContainer* prevContainer = nullptr;
-	int containerSize = 1024 * 1024;
-	int containerID;
+  bool hasNextContainer = false;
+  bool hasPrevContainer = false;
+  UnsrtFringeContainer *nextContainer = nullptr;
+  UnsrtFringeContainer *prevContainer = nullptr;
+  int containerSize = 1024 * 1024;
+  int containerID;
 
-	int rightIndex = -1;
-	int leftIndex = -1;
+  int rightIndex = -1;
+  int leftIndex = -1;
 };
 
 } /* namespace progression */

@@ -36,8 +36,8 @@
 #ifndef _DDDMPINT
 #define _DDDMPINT
 
-#include "dddmp.h"
 #include "cuddInt.h"
+#include "dddmp.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -48,10 +48,10 @@ extern "C" {
 /*---------------------------------------------------------------------------*/
 
 /* constants for code fields */
-#define DDDMP_TERMINAL      0
-#define DDDMP_ABSOLUTE_ID   1
-#define DDDMP_RELATIVE_ID   2
-#define DDDMP_RELATIVE_1    3
+#define DDDMP_TERMINAL 0
+#define DDDMP_ABSOLUTE_ID 1
+#define DDDMP_RELATIVE_ID 2
+#define DDDMP_RELATIVE_1 3
 
 #define DDDMP_MAXSTRLEN 500
 
@@ -77,11 +77,11 @@ extern "C" {
 ******************************************************************************/
 
 struct binary_dd_code {
-    unsigned Unused : 1;
-    unsigned V      : 2;
-    unsigned T      : 2;
-    unsigned Ecompl : 1;
-    unsigned E      : 2;
+  unsigned Unused : 1;
+  unsigned V : 2;
+  unsigned T : 2;
+  unsigned Ecompl : 1;
+  unsigned E : 2;
 };
 
 /**Struct*********************************************************************
@@ -93,26 +93,26 @@ struct binary_dd_code {
 ******************************************************************************/
 
 struct Dddmp_Hdr_s {
-    char *ver;
-    char mode;
-    Dddmp_DecompType ddType;
-    Dddmp_VarInfoType varinfo;
-    char *dd;
-    int nnodes;
-    int nVars;
-    int nsuppvars;
-    char **orderedVarNames;
-    char **suppVarNames;
-    int *ids;
-    int *permids;
-    int *auxids;
-    int *cnfids;
-    int nRoots;
-    int *rootids;
-    char **rootnames;
-    int nAddedCnfVar;
-    int nVarsCnf;
-    int nClausesCnf;
+  char *ver;
+  char mode;
+  Dddmp_DecompType ddType;
+  Dddmp_VarInfoType varinfo;
+  char *dd;
+  int nnodes;
+  int nVars;
+  int nsuppvars;
+  char **orderedVarNames;
+  char **suppVarNames;
+  int *ids;
+  int *permids;
+  int *auxids;
+  int *cnfids;
+  int nRoots;
+  int *rootids;
+  char **rootnames;
+  int nAddedCnfVar;
+  int nVarsCnf;
+  int nClausesCnf;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -136,10 +136,9 @@ struct Dddmp_Hdr_s {
 ******************************************************************************/
 
 #ifdef ALLOC
-#  define DDDMP_ALLOC(type, num)        ALLOC(type, num)
+#define DDDMP_ALLOC(type, num) ALLOC(type, num)
 #else
-#  define DDDMP_ALLOC(type, num)        \
-    ((type *)malloc(sizeof(type) * (num)))
+#define DDDMP_ALLOC(type, num) ((type *)malloc(sizeof(type) * (num)))
 #endif
 
 /**Macro***********************************************************************
@@ -155,12 +154,11 @@ struct Dddmp_Hdr_s {
 ******************************************************************************/
 
 #ifdef FREE
-#define DDDMP_FREE(p)  (FREE(p))
+#define DDDMP_FREE(p) (FREE(p))
 #else
-#define DDDMP_FREE(p)   \
+#define DDDMP_FREE(p)                                                          \
     ((p) != NULL) ? (free(p)) : 0)
 #endif
-
 
 /**AutomaticStart*************************************************************/
 
@@ -186,16 +184,30 @@ extern int DddmpReadNodeIndexBdd(DdNode *f);
 extern int DddmpVisitedBdd(DdNode *f);
 extern void DddmpSetVisitedBdd(DdNode *f);
 extern void DddmpClearVisitedBdd(DdNode *f);
-extern int DddmpNumberDdNodesCnf(DdManager *ddMgr, DdNode **f, int rootN, int *cnfIds, int id);
-extern int DddmpDdNodesCountEdgesAndNumber(DdManager *ddMgr, DdNode **f, int rootN, int edgeInTh, int pathLengthTh, int *cnfIds, int id);
+extern int DddmpNumberDdNodesCnf(DdManager *ddMgr, DdNode **f, int rootN,
+                                 int *cnfIds, int id);
+extern int DddmpDdNodesCountEdgesAndNumber(DdManager *ddMgr, DdNode **f,
+                                           int rootN, int edgeInTh,
+                                           int pathLengthTh, int *cnfIds,
+                                           int id);
 extern void DddmpUnnumberDdNodesCnf(DdManager *ddMgr, DdNode **f, int rootN);
 extern int DddmpPrintBddAndNext(DdManager *ddMgr, DdNode **f, int rootN);
 extern int DddmpWriteNodeIndexCnf(DdNode *f, int id);
 extern int DddmpVisitedCnf(DdNode *f);
 extern void DddmpSetVisitedCnf(DdNode *f);
 extern int DddmpReadNodeIndexCnf(DdNode *f);
-extern int DddmpCuddDdArrayStoreBdd(Dddmp_DecompType ddType, DdManager *ddMgr, char *ddname, int nRoots, DdNode **f, char **rootnames, char **varnames, int *auxids, int mode, Dddmp_VarInfoType varinfo, char *fname, FILE *fp);
-extern int DddmpCuddBddArrayStore(Dddmp_DecompType ddType, DdManager *ddMgr, char *ddname, int nRoots, DdNode **f, char **rootnames, char **varnames, int *auxids, int mode, Dddmp_VarInfoType varinfo, char *fname, FILE *fp);
+extern int DddmpCuddDdArrayStoreBdd(Dddmp_DecompType ddType, DdManager *ddMgr,
+                                    char *ddname, int nRoots, DdNode **f,
+                                    char **rootnames, char **varnames,
+                                    int *auxids, int mode,
+                                    Dddmp_VarInfoType varinfo, char *fname,
+                                    FILE *fp);
+extern int DddmpCuddBddArrayStore(Dddmp_DecompType ddType, DdManager *ddMgr,
+                                  char *ddname, int nRoots, DdNode **f,
+                                  char **rootnames, char **varnames,
+                                  int *auxids, int mode,
+                                  Dddmp_VarInfoType varinfo, char *fname,
+                                  FILE *fp);
 extern int QsortStrcmp(const void *ps1, const void *ps2);
 extern int FindVarname(char *name, char **array, int n);
 extern char *DddmpStrDup(char *str);

@@ -9,27 +9,28 @@
 #define HEURISTICS_HSFILTER_H_
 
 #include "../../intDataStructures/IntPairHeap.h"
+#include "../../intDataStructures/IntStack.h"
 #include "../../intDataStructures/bucketSet.h"
 #include "../../intDataStructures/noDelIntSet.h"
-#include "../../intDataStructures/IntStack.h"
-#include "hsAddFF.h"
 #include "LMCutLandmark.h"
+#include "hsAddFF.h"
 
 namespace progression {
 
 class hsFilter {
 public:
-	hsFilter(Model* sas);
-	virtual ~hsFilter();
-		
-	string getDescription(){ return "filter";}
+  hsFilter(Model *sas);
+  virtual ~hsFilter();
 
-    list<LMCutLandmark *>* cuts = new list<LMCutLandmark *>();
-	
-	int getHeuristicValue(bucketSet& s, noDelIntSet& g);
-	Model* m;
+  string getDescription() { return "filter"; }
+
+  list<LMCutLandmark *> *cuts = new list<LMCutLandmark *>();
+
+  int getHeuristicValue(bucketSet &s, noDelIntSet &g);
+  Model *m;
+
 private:
-	hsAddFF* add;
+  hsAddFF *add;
 };
 } /* namespace progression */
 

@@ -14,20 +14,21 @@ namespace progression {
 
 class IntUtil {
 public:
-	IntUtil();
-	virtual ~IntUtil();
-	void sort(int* ints, int minIndex, int maxIndex);
-	int indexOf(int* sortedSet, int low, int high, int value);
+  IntUtil();
+  virtual ~IntUtil();
+  void sort(int *ints, int minIndex, int maxIndex);
+  int indexOf(int *sortedSet, int low, int high, int value);
 
-	bool isSorted(int* list, int size);
+  bool isSorted(int *list, int size);
 
-	bool containsInt(int* sortedList, int lowI, int highI, int value);
-	bool containsKey(int** keySortedMap, int lowI, int highI, int value);
-	int* copyExcluding(int* inList, int size, int exclude);
+  bool containsInt(int *sortedList, int lowI, int highI, int value);
+  bool containsKey(int **keySortedMap, int lowI, int highI, int value);
+  int *copyExcluding(int *inList, int size, int exclude);
 
-	int makeSet(int* set, int size);
+  int makeSet(int *set, int size);
+
 private:
-	int partition(int* ints, int minIndex, int maxIndex);
+  int partition(int *ints, int minIndex, int maxIndex);
 };
 
 } /* namespace progression */

@@ -16,16 +16,17 @@ namespace progression {
 
 class StackFringe {
 public:
-	StackFringe();
-	virtual ~StackFringe();
-	void push(searchNode* n);
-	bool empty();
-	searchNode* top();
-	void pop();
-	int size();
+  StackFringe();
+  virtual ~StackFringe();
+  void push(searchNode *n);
+  bool empty();
+  searchNode *top();
+  void pop();
+  int size();
+
 private:
-	  //std::stack<searchNode*> f;
-	  UnsortedFringe* f;
+  // std::stack<searchNode*> f;
+  UnsortedFringe *f;
 };
 
 } /* namespace progression */

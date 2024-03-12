@@ -109,7 +109,6 @@
 /* Stucture declarations                                                     */
 /*---------------------------------------------------------------------------*/
 
-
 /*---------------------------------------------------------------------------*/
 /* Type declarations                                                         */
 /*---------------------------------------------------------------------------*/
@@ -127,7 +126,7 @@ typedef struct st_generator st_generator;
 /**
  * @brief Type of return values for iterators.
  */
-enum st_retval {ST_CONTINUE, ST_STOP, ST_DELETE};
+enum st_retval { ST_CONTINUE, ST_STOP, ST_DELETE };
 
 /**
  *  @brief Type for function passed to @ref st_foreach.
@@ -158,7 +157,6 @@ typedef int (*st_hash_arg_t)(void const *, int, void const *);
 /* Variable declarations                                                     */
 /*---------------------------------------------------------------------------*/
 
-
 /*---------------------------------------------------------------------------*/
 /* Macro declarations                                                        */
 /*---------------------------------------------------------------------------*/
@@ -175,7 +173,6 @@ typedef int (*st_hash_arg_t)(void const *, int, void const *);
 
 */
 #define st_is_member(table, key) st_lookup(table, key, (void **)0)
-
 
 /**
   @brief Iteration macro.
@@ -198,9 +195,9 @@ typedef int (*st_hash_arg_t)(void const *, int, void const *);
   @see st_foreach_item_int st_foreach
 
 */
-#define st_foreach_item(table, gen, key, value) \
-    for (gen = st_init_gen(table); st_gen(gen, key, value) || (st_free_gen(gen), 0);)
-
+#define st_foreach_item(table, gen, key, value)                                \
+  for (gen = st_init_gen(table);                                               \
+       st_gen(gen, key, value) || (st_free_gen(gen), 0);)
 
 /**
   @brief Iteration macro.
@@ -225,8 +222,9 @@ typedef int (*st_hash_arg_t)(void const *, int, void const *);
   @see st_foreach_item st_foreach
 
 */
-#define st_foreach_item_int(table, gen, key, value) \
-    for (gen = st_init_gen(table); st_gen_int(gen, key, value) || (st_free_gen(gen), 0);)
+#define st_foreach_item_int(table, gen, key, value)                            \
+  for (gen = st_init_gen(table);                                               \
+       st_gen_int(gen, key, value) || (st_free_gen(gen), 0);)
 
 /*---------------------------------------------------------------------------*/
 /* Function prototypes                                                       */
@@ -236,9 +234,12 @@ typedef int (*st_hash_arg_t)(void const *, int, void const *);
 extern "C" {
 #endif
 
-st_table *st_init_table_with_params(st_compare_t, st_hash_t, int, int, double, int);
+st_table *st_init_table_with_params(st_compare_t, st_hash_t, int, int, double,
+                                    int);
 st_table *st_init_table(st_compare_t, st_hash_t);
-st_table *st_init_table_with_params_and_arg(st_compare_arg_t, st_hash_arg_t, void const *, int, int, double, int);
+st_table *st_init_table_with_params_and_arg(st_compare_arg_t, st_hash_arg_t,
+                                            void const *, int, int, double,
+                                            int);
 st_table *st_init_table_with_arg(st_compare_arg_t, st_hash_arg_t, void const *);
 void st_free_table(st_table *);
 int st_lookup(st_table *, void const *, void **);

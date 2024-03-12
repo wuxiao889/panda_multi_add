@@ -66,11 +66,11 @@
 
 #if defined(__GNUC__)
 #define MTR_INLINE __inline__
-# if (__GNUC__ > 2 || __GNUC_MINOR__ >= 7)
-#   define MTR_UNUSED __attribute__ ((unused))
-# else
-#   define MTR_UNUSED
-# endif
+#if (__GNUC__ > 2 || __GNUC_MINOR__ >= 7)
+#define MTR_UNUSED __attribute__((unused))
+#else
+#define MTR_UNUSED
+#endif
 #else
 #define MTR_INLINE
 #define MTR_UNUSED
@@ -81,9 +81,9 @@
 ** number.
 */
 #if SIZEOF_VOID_P == 8
-#define MTR_MAXHIGH     (((MtrHalfWord) ~0) >> 1)
+#define MTR_MAXHIGH (((MtrHalfWord)~0) >> 1)
 #else
-#define MTR_MAXHIGH     ((MtrHalfWord) ~0)
+#define MTR_MAXHIGH ((MtrHalfWord)~0)
 #endif
 
 /*---------------------------------------------------------------------------*/
@@ -107,30 +107,28 @@ typedef uint16_t MtrHalfWord;
  * @brief multi-way tree node.
  */
 struct MtrNode_ {
-    MtrHalfWord flags;
-    MtrHalfWord low;
-    MtrHalfWord size;
-    MtrHalfWord index;
-    struct MtrNode_ *parent;
-    struct MtrNode_ *child;
-    struct MtrNode_ *elder;
-    struct MtrNode_ *younger;
+  MtrHalfWord flags;
+  MtrHalfWord low;
+  MtrHalfWord size;
+  MtrHalfWord index;
+  struct MtrNode_ *parent;
+  struct MtrNode_ *child;
+  struct MtrNode_ *elder;
+  struct MtrNode_ *younger;
 };
 
 /*---------------------------------------------------------------------------*/
 /* Variable declarations                                                     */
 /*---------------------------------------------------------------------------*/
 
-
 /*---------------------------------------------------------------------------*/
 /* Macro declarations                                                        */
 /*---------------------------------------------------------------------------*/
 
 /* Flag manipulation macros */
-#define MTR_SET(node, flag)     (node->flags |= (flag))
-#define MTR_RESET(node, flag)   (node->flags &= ~(flag))
-#define MTR_TEST(node, flag)    (node->flags & (flag))
-
+#define MTR_SET(node, flag) (node->flags |= (flag))
+#define MTR_RESET(node, flag) (node->flags &= ~(flag))
+#define MTR_TEST(node, flag) (node->flags & (flag))
 
 /** \cond */
 
@@ -139,6 +137,5 @@ struct MtrNode_ {
 /*---------------------------------------------------------------------------*/
 
 /** \endcond */
-
 
 #endif /* MTRINT_H_ */

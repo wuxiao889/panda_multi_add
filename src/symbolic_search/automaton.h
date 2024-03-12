@@ -3,9 +3,6 @@
 
 #include "../Model.h"
 
+void build_automaton(Model *htn);
 
-void build_automaton(Model * htn);
-
-
-#endif 
-
+#endif

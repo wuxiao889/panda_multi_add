@@ -9,23 +9,22 @@
 
 namespace progression {
 
-hhZero::hhZero(Model* htn, int index) : Heuristic(htn, index){
-	// TODO Auto-generated constructor stub
-
+hhZero::hhZero(Model *htn, int index) : Heuristic(htn, index) {
+  // TODO Auto-generated constructor stub
 }
 
 hhZero::~hhZero() {
-	// TODO Auto-generated destructor stub
+  // TODO Auto-generated destructor stub
 }
 
 void hhZero::setHeuristicValue(searchNode *n, searchNode *parent, int action) {
-	n->heuristicValue[index] = 0;
-	n->goalReachable = true;
+  n->heuristicValue[index] = 0;
+  n->goalReachable = true;
 }
 void hhZero::setHeuristicValue(searchNode *n, searchNode *parent, int absTask,
-		int method) {
-	n->heuristicValue[index] = 0;
-	n->goalReachable = true;
+                               int method) {
+  n->heuristicValue[index] = 0;
+  n->goalReachable = true;
 }
 
 } /* namespace progression */

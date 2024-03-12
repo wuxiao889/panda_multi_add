@@ -8,20 +8,20 @@
 #include "../landmarks/lmDataStructures/landmark.h"
 
 namespace progression {
-    class LMCutLandmark {
+class LMCutLandmark {
 
-    public:
-        const lmConType contype = disjunctive;
-        const lmType lmtype = LMCUT;
+public:
+  const lmConType contype = disjunctive;
+  const lmType lmtype = LMCUT;
 
-        int size = 0;
-        int firstMethod = -1;
-        int* lm = nullptr;
+  int size = 0;
+  int firstMethod = -1;
+  int *lm = nullptr;
 
-        bool isMethod(int i);
-        bool isAction(int i);
-        LMCutLandmark(int size);
-    };
-}
+  bool isMethod(int i);
+  bool isAction(int i);
+  LMCutLandmark(int size);
+};
+} // namespace progression
 
-#endif //PANDAPIENGINE_LMCUTLANDMARK_H
+#endif // PANDAPIENGINE_LMCUTLANDMARK_H

@@ -8,67 +8,66 @@
 #ifndef HEURISTICS_HSADDFF_H_
 #define HEURISTICS_HSADDFF_H_
 
-#include <climits>
-#include <utility>
+#include "../../Model.h"
 #include "../../intDataStructures/IntPairHeap.h"
+#include "../../intDataStructures/IntStack.h"
 #include "../../intDataStructures/bucketSet.h"
 #include "../../intDataStructures/noDelIntSet.h"
-#include "../../intDataStructures/IntStack.h"
-#include "../../Model.h"
+#include <climits>
+#include <utility>
 
 using namespace std;
 
 namespace progression {
 
-    enum myHeu {
-        sasAdd, sasFF
-    };
+enum myHeu { sasAdd, sasFF };
 
-    class ComparePair {
-    public:
-        bool operator()(pair<int, int> *n1, pair<int, int> *n2);
-    };
+class ComparePair {
+public:
+  bool operator()(pair<int, int> *n1, pair<int, int> *n2);
+};
 
-    class hsAddFF {
-    public:
-        hsAddFF(Model *sas);
+class hsAddFF {
+public:
+  hsAddFF(Model *sas);
 
-        virtual ~hsAddFF();
-	
-		string getDescription(){ return "ff";}
+  virtual ~hsAddFF();
+
+  string getDescription() { return "ff"; }
 
 #if (STATEREP == SRCALC1) || (STATEREP == SRCOPY)
 
-        int getHeuristicValue(bucketSet &s, noDelIntSet &g);
+  int getHeuristicValue(bucketSet &s, noDelIntSet &g);
 
 #elif (STATEREP == SRCALC2)
-        int getHeuristicValue(noDelIntSet& s, noDelIntSet& g);
-#elif(STATEREP == SRLIST)
-        int getHeuristicValue(noDelIntSet& s, noDelIntSet& g);
+  int getHeuristicValue(noDelIntSet &s, noDelIntSet &g);
+#elif (STATEREP == SRLIST)
+  int getHeuristicValue(noDelIntSet &s, noDelIntSet &g);
 #endif
-        Model *m;
-        myHeu heuristic = sasFF;
-        int calls = 0;
-    private:
-        // todo: when parallelized, this must be per core
-        IntPairHeap *queue;
-        tHVal *hValPropInit;
+  Model *m;
+  myHeu heuristic = sasFF;
+  int calls = 0;
 
-        int *numSatPrecs;
-        tHVal *hValOp;
-        tHVal *hValProp;
-        int *reachedBy;
+private:
+  // todo: when parallelized, this must be per core
+  IntPairHeap *queue;
+  tHVal *hValPropInit;
 
-        noDelIntSet markedFs;
-        noDelIntSet markedOps;
-        IntStack needToMark;
+  int *numSatPrecs;
+  tHVal *hValOp;
+  tHVal *hValProp;
+  int *reachedBy;
 
-        bool allActionsCostOne = false;
+  noDelIntSet markedFs;
+  noDelIntSet markedOps;
+  IntStack needToMark;
 
-        int getFF(noDelIntSet &g, int hVal);
+  bool allActionsCostOne = false;
 
-        bool firstOverflow = true;
-    };
+  int getFF(noDelIntSet &g, int hVal);
+
+  bool firstOverflow = true;
+};
 
 } /* namespace progression */
 

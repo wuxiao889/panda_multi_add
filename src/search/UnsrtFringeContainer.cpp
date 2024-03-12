@@ -10,13 +10,10 @@
 namespace progression {
 
 UnsrtFringeContainer::UnsrtFringeContainer(int id) {
-	content = new searchNode*[containerSize];
-	this->containerID = id;
-
+  content = new searchNode *[containerSize];
+  this->containerID = id;
 }
 
-UnsrtFringeContainer::~UnsrtFringeContainer() {
-	delete[] content;
-}
+UnsrtFringeContainer::~UnsrtFringeContainer() { delete[] content; }
 
 } /* namespace progression */

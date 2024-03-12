@@ -13,37 +13,47 @@
 
 namespace progression {
 
-class hhModDepth: public Heuristic {
+class hhModDepth : public Heuristic {
 private:
-	bool invert;
+  bool invert;
+
 public:
-	hhModDepth(Model* htn, int index, bool _invert);
-	virtual ~hhModDepth();
-	string getDescription(){ return "modDepth(invert="+to_string(invert)+")";}
-	void setHeuristicValue(searchNode *n, searchNode *parent, int action);
-	void setHeuristicValue(searchNode *n, searchNode *parent, int absTask, int method);
+  hhModDepth(Model *htn, int index, bool _invert);
+  virtual ~hhModDepth();
+  string getDescription() {
+    return "modDepth(invert=" + to_string(invert) + ")";
+  }
+  void setHeuristicValue(searchNode *n, searchNode *parent, int action);
+  void setHeuristicValue(searchNode *n, searchNode *parent, int absTask,
+                         int method);
 };
 
-class hhMixedModDepth: public Heuristic {
+class hhMixedModDepth : public Heuristic {
 private:
-	bool invert;
+  bool invert;
+
 public:
-	hhMixedModDepth(Model* htn, int index, bool _invert);
-	virtual ~hhMixedModDepth();
-	string getDescription(){ return "mixedModDepth(invert="+to_string(invert)+")";}
-	void setHeuristicValue(searchNode *n, searchNode *parent, int action);
-	void setHeuristicValue(searchNode *n, searchNode *parent, int absTask, int method);
+  hhMixedModDepth(Model *htn, int index, bool _invert);
+  virtual ~hhMixedModDepth();
+  string getDescription() {
+    return "mixedModDepth(invert=" + to_string(invert) + ")";
+  }
+  void setHeuristicValue(searchNode *n, searchNode *parent, int action);
+  void setHeuristicValue(searchNode *n, searchNode *parent, int absTask,
+                         int method);
 };
 
-class hhCost: public Heuristic {
+class hhCost : public Heuristic {
 private:
-	bool invert;
+  bool invert;
+
 public:
-	hhCost(Model* htn, int index, bool _invert);
-	virtual ~hhCost();
-	string getDescription(){ return "cost(invert="+to_string(invert)+")";}
-	void setHeuristicValue(searchNode *n, searchNode *parent, int action);
-	void setHeuristicValue(searchNode *n, searchNode *parent, int absTask, int method);
+  hhCost(Model *htn, int index, bool _invert);
+  virtual ~hhCost();
+  string getDescription() { return "cost(invert=" + to_string(invert) + ")"; }
+  void setHeuristicValue(searchNode *n, searchNode *parent, int action);
+  void setHeuristicValue(searchNode *n, searchNode *parent, int absTask,
+                         int method);
 };
 
 } /* namespace progression */

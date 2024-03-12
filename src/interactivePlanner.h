@@ -1,10 +1,9 @@
 #ifndef INTERACTIVE_PLANNER
 #define INTERACTIVE_PLANNER
 
-#include "flags.h" // defines flags
 #include "Model.h"
+#include "flags.h" // defines flags
 
-
-void interactivePlanner(Model* htn, searchNode* tnI);
+void interactivePlanner(Model *htn, searchNode *tnI);
 
 #endif

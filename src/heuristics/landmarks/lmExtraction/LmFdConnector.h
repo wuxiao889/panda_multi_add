@@ -8,36 +8,36 @@
 #ifndef HEURISTICS_LANDMARKS_LMFDCONNECTOR_H_
 #define HEURISTICS_LANDMARKS_LMFDCONNECTOR_H_
 
-#include <list>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <cassert>
 #include "../../../Model.h"
 #include "../../../intDataStructures/StringUtil.h"
 #include "../../rcHeuristics/RCModelFactory.h"
+#include <cassert>
+#include <fstream>
+#include <iostream>
+#include <list>
+#include <sstream>
 
 namespace progression {
 
 class LmFdConnector {
 public:
-	LmFdConnector();
-	virtual ~LmFdConnector();
+  LmFdConnector();
+  virtual ~LmFdConnector();
 
-	void createLMs(Model* htn);
+  void createLMs(Model *htn);
 
-	int numLMs = -1;
-	int numConjunctive = -1;
-	landmark** landmarks = nullptr;
+  int numLMs = -1;
+  int numConjunctive = -1;
+  landmark **landmarks = nullptr;
 
-	int getNumLMs();
-	landmark** getLMs();
+  int getNumLMs();
+  landmark **getLMs();
 
 private:
-	StringUtil su;
+  StringUtil su;
 
-	void readFDLMs(string f, RCModelFactory* factory);
-	int getIndex(string f, Model* rc);
+  void readFDLMs(string f, RCModelFactory *factory);
+  int getIndex(string f, Model *rc);
 };
 
 } /* namespace progression */

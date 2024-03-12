@@ -12,31 +12,31 @@ namespace progression {
 
 class bIntSet {
 private:
-	bool* boolContainer;
-	int* intContainer;
-	int iterI = -1;
-	int containerSize;
-	int currentSize = -1;
+  bool *boolContainer;
+  int *intContainer;
+  int iterI = -1;
+  int containerSize;
+  int currentSize = -1;
 
 public:
-	bIntSet();
-	virtual ~bIntSet();
+  bIntSet();
+  virtual ~bIntSet();
 
-	void sortSet();
-	void sort(int* ints, int minIndex, int maxIndex);
-	int partition(int* ints, int minIndex, int maxIndex);
-	int find(int* ints, int minIndex, int maxIndex, int element);
+  void sortSet();
+  void sort(int *ints, int minIndex, int maxIndex);
+  int partition(int *ints, int minIndex, int maxIndex);
+  int find(int *ints, int minIndex, int maxIndex, int element);
 
-	void init(int size);
-	int getSize();
-	void insert(int i);
-	void append(int i);
-	void erase(int i);
-	bool isEmpty();
-	void clear();
-	int getFirst();
-	int getNext();
-	bool get(int i);
+  void init(int size);
+  int getSize();
+  void insert(int i);
+  void append(int i);
+  void erase(int i);
+  bool isEmpty();
+  void clear();
+  int getFirst();
+  int getNext();
+  bool get(int i);
 };
 
 } /* namespace progression */

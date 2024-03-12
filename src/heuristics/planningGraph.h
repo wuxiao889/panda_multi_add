@@ -8,46 +8,46 @@
 #ifndef HEURISTICS_PLANNINGGRAPH_H_
 #define HEURISTICS_PLANNINGGRAPH_H_
 
-#include <set>
-#include <climits>
-#include "../intDataStructures/IntPairHeap.h"
-#include "../intDataStructures/bucketSet.h"
-#include "../intDataStructures/noDelIntSet.h"
-#include "../intDataStructures/IntStack.h"
-#include "../intDataStructures/delIterIntSet.h"
 #include "../Model.h"
+#include "../intDataStructures/IntPairHeap.h"
+#include "../intDataStructures/IntStack.h"
+#include "../intDataStructures/bucketSet.h"
+#include "../intDataStructures/delIterIntSet.h"
+#include "../intDataStructures/noDelIntSet.h"
+#include <climits>
+#include <set>
 
 namespace progression {
 
 class planningGraph {
 public:
-	planningGraph(Model* sas);
-	virtual ~planningGraph();
+  planningGraph(Model *sas);
+  virtual ~planningGraph();
 
-	void calcReachability(vector<bool>& s, noDelIntSet& reachable);
-	bool factReachable(int i);
-	bool taskReachable(int i);
-	bool methodReachable(int i);
+  void calcReachability(vector<bool> &s, noDelIntSet &reachable);
+  bool factReachable(int i);
+  bool taskReachable(int i);
+  bool methodReachable(int i);
 
-	Model* m;
-	noDelIntSet usefulFactSet;
-	noDelIntSet reachableTasksSet;
-	noDelIntSet reachableMethodsSet;
+  Model *m;
+  noDelIntSet usefulFactSet;
+  noDelIntSet reachableTasksSet;
+  noDelIntSet reachableMethodsSet;
+
 private:
-	IntPairHeap<int>* queue;
-	IntStack* stack;
-	int* hValPropInit;
+  IntPairHeap<int> *queue;
+  IntStack *stack;
+  int *hValPropInit;
 
-	int* numSatPrecs;
-	int* hValOp;
-	int* hValProp;
+  int *numSatPrecs;
+  int *hValOp;
+  int *hValProp;
 
-	noDelIntSet markedFs;
-	noDelIntSet markedOps;
-	IntStack needToMark;
+  noDelIntSet markedFs;
+  noDelIntSet markedOps;
+  IntStack needToMark;
 
-	int* subtasks;
-
+  int *subtasks;
 };
 
 } /* namespace progression */

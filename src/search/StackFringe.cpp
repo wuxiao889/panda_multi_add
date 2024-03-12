@@ -9,32 +9,18 @@
 
 namespace progression {
 
-StackFringe::StackFringe() {
-	f = new UnsortedFringe;
-}
+StackFringe::StackFringe() { f = new UnsortedFringe; }
 
-StackFringe::~StackFringe() {
-	delete f;
-}
+StackFringe::~StackFringe() { delete f; }
 
-void StackFringe::push(searchNode* n) {
-	f->addLast(n);
-}
+void StackFringe::push(searchNode *n) { f->addLast(n); }
 
-bool StackFringe::empty() {
-	return f->empty();
-}
+bool StackFringe::empty() { return f->empty(); }
 
-searchNode* StackFringe::top() {
-	return f->removeLast();
-}
+searchNode *StackFringe::top() { return f->removeLast(); }
 
-void StackFringe::pop() {
+void StackFringe::pop() {}
 
-}
-
-int StackFringe::size() {
-	return f->size();
-}
+int StackFringe::size() { return f->size(); }
 
 } /* namespace progression */

@@ -8,64 +8,68 @@
 #ifndef HEURISTICS_HSADDFF_H_
 #define HEURISTICS_HSADDFF_H_
 
-#include <climits>
-#include <utility>
-#include <list>
+#include "../../Model.h"
 #include "../../intDataStructures/IntPairHeap.h"
+#include "../../intDataStructures/IntStack.h"
 #include "../../intDataStructures/bucketSet.h"
 #include "../../intDataStructures/noDelIntSet.h"
-#include "../../intDataStructures/IntStack.h"
-#include "../../Model.h"
 #include "LMCutLandmark.h"
+#include <climits>
+#include <list>
+#include <utility>
 
 // inner Types
-//typedef long long hType;
+// typedef long long hType;
 //#define hUnreachable  LONG_LONG_MAX
 typedef int hType;
-#define hUnreachable  INT_MAX
+#define hUnreachable INT_MAX
 
 using namespace std;
 
 namespace progression {
 
-    enum myHeu {
-        sasAdd, sasFF
-    };
+enum myHeu { sasAdd, sasFF };
 
-    class hsAddFF {
-    public:
-        hsAddFF(Model *sas);
+class hsAddFF {
+public:
+  hsAddFF(Model *sas);
 
-        virtual ~hsAddFF();
+  virtual ~hsAddFF();
 
-        int getHeuristicValue(bucketSet &s, noDelIntSet &g);
-        bool reportedOverflow = false;
-		
-		string getDescription(){ if (heuristic == sasFF) return "ff"; else return "add";}
+  int getHeuristicValue(bucketSet &s, noDelIntSet &g);
+  bool reportedOverflow = false;
 
-        Model *m;
-        myHeu heuristic = sasFF;
-        list<LMCutLandmark *>* cuts = new list<LMCutLandmark *>();
-    private:
-        // todo: when parallelized, this must be per core
-        IntPairHeap<hType> *queue;
-        hType *hValPropInit;
+  string getDescription() {
+    if (heuristic == sasFF)
+      return "ff";
+    else
+      return "add";
+  }
 
-        int *numSatPrecs;
-        hType *hValOp;
-        hType *hValProp;
-        int *reachedBy;
+  Model *m;
+  myHeu heuristic = sasFF;
+  list<LMCutLandmark *> *cuts = new list<LMCutLandmark *>();
 
-        noDelIntSet markedFs;
-        noDelIntSet markedOps;
-        IntStack needToMark;
+private:
+  // todo: when parallelized, this must be per core
+  IntPairHeap<hType> *queue;
+  hType *hValPropInit;
 
-        bool allActionsCostOne = false;
+  int *numSatPrecs;
+  hType *hValOp;
+  hType *hValProp;
+  int *reachedBy;
 
-        hType getFF(noDelIntSet &g);
+  noDelIntSet markedFs;
+  noDelIntSet markedOps;
+  IntStack needToMark;
 
-        bool assertPrecAddDelSets();
-    };
+  bool allActionsCostOne = false;
+
+  hType getFF(noDelIntSet &g);
+
+  bool assertPrecAddDelSets();
+};
 
 } /* namespace progression */
 

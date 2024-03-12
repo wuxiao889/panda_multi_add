@@ -11,11 +11,11 @@
 namespace progression {
 
 struct llInt {
-	bool isFirst = false;
-	bool isLast = false;
-	int value;
-	llInt* prev;
-	llInt* next;
+  bool isFirst = false;
+  bool isLast = false;
+  int value;
+  llInt *prev;
+  llInt *next;
 };
 
 /*
@@ -30,26 +30,27 @@ struct llInt {
  */
 class delIterIntSet {
 private:
-	bool* boolContainer = nullptr;
-	int iterI = -1;
-	int containerSize = -1;
-	int currentSize = -1;
-	llInt* first = nullptr;
-	llInt* last = nullptr;
-	llInt* currentIterElem = nullptr;
-public:
-	delIterIntSet();
-	virtual ~delIterIntSet();
+  bool *boolContainer = nullptr;
+  int iterI = -1;
+  int containerSize = -1;
+  int currentSize = -1;
+  llInt *first = nullptr;
+  llInt *last = nullptr;
+  llInt *currentIterElem = nullptr;
 
-	void init(int size);
-	int getSize();
-	void insert(int i);
-	bool isEmpty();
-	void clear();
-	int getFirst();
-	int getNext();
-	int delCurrentGetNext();
-	bool get(int i);
+public:
+  delIterIntSet();
+  virtual ~delIterIntSet();
+
+  void init(int size);
+  int getSize();
+  void insert(int i);
+  bool isEmpty();
+  void clear();
+  int getFirst();
+  int getNext();
+  int delCurrentGetNext();
+  bool get(int i);
 };
 
 } /* namespace progression */

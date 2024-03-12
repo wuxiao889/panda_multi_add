@@ -15,15 +15,16 @@ namespace progression {
 
 class QueueFringe {
 public:
-	QueueFringe();
-	virtual ~QueueFringe();
-	void push(searchNode* n);
-	bool empty();
-	searchNode* top();
-	void pop();
-	int size();
+  QueueFringe();
+  virtual ~QueueFringe();
+  void push(searchNode *n);
+  bool empty();
+  searchNode *top();
+  void pop();
+  int size();
+
 private:
-	UnsortedFringe* f;
+  UnsortedFringe *f;
 };
 
 } /* namespace progression */

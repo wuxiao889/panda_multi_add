@@ -9,31 +9,17 @@
 
 namespace progression {
 
-QueueFringe::QueueFringe() {
-	f = new UnsortedFringe;
-}
+QueueFringe::QueueFringe() { f = new UnsortedFringe; }
 
-QueueFringe::~QueueFringe() {
-	delete f;
-}
+QueueFringe::~QueueFringe() { delete f; }
 
-void QueueFringe::push(searchNode* n) {
-	f->addLast(n);
-}
+void QueueFringe::push(searchNode *n) { f->addLast(n); }
 
-bool QueueFringe::empty() {
-	return f->empty();
-}
+bool QueueFringe::empty() { return f->empty(); }
 
-searchNode* QueueFringe::top() {
-	return f->removeFirst();
-}
+searchNode *QueueFringe::top() { return f->removeFirst(); }
 
-void QueueFringe::pop() {
+void QueueFringe::pop() {}
 
-}
-
-int QueueFringe::size() {
-	return f->size();
-}
+int QueueFringe::size() { return f->size(); }
 } /* namespace progression */

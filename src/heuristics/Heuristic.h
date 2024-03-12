@@ -9,17 +9,19 @@
 
 class Heuristic {
 protected:
-    int index;
-    Model* htn;
-public:
-    Heuristic(Model* htnModel, int index);
-    
-	// returns textual description of the heuristic for output 
-	virtual string getDescription() = 0;
+  int index;
+  Model *htn;
 
-    virtual void setHeuristicValue(searchNode *n, searchNode *parent, int action) = 0;
-    virtual void setHeuristicValue(searchNode *n, searchNode *parent, int absTask, int method) = 0;
+public:
+  Heuristic(Model *htnModel, int index);
+
+  // returns textual description of the heuristic for output
+  virtual string getDescription() = 0;
+
+  virtual void setHeuristicValue(searchNode *n, searchNode *parent,
+                                 int action) = 0;
+  virtual void setHeuristicValue(searchNode *n, searchNode *parent, int absTask,
+                                 int method) = 0;
 };
 
-
-#endif //PANDAPIENGINE_HEURISTIC_H
+#endif // PANDAPIENGINE_HEURISTIC_H

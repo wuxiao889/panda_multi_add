@@ -76,8 +76,8 @@
 #include <unistd.h>
 #endif
 
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 
 #if HAVE_STDLIB_H
 #include <stdlib.h>
@@ -122,7 +122,7 @@
  */
 #if defined(__GNUC__)
 #if __GNUC__ > 2 || __GNUC_MINOR__ >= 7
-#define UTIL_UNUSED __attribute__ ((unused))
+#define UTIL_UNUSED __attribute__((unused))
 #else
 #define UTIL_UNUSED
 #endif
@@ -133,9 +133,9 @@
 /**
  * @brief Type-decorated NULL (for documentation).
  */
-#define NIL(type)               ((type *)0)
+#define NIL(type) ((type *)0)
 
-/* #define USE_MM */		/* choose default memory allocator */
+/* #define USE_MM */ /* choose default memory allocator */
 
 /**
  * @def ALLOC
@@ -157,16 +157,13 @@
 
 #if defined(USE_MM)
 /* Assumes the memory manager is default one. */
-#define ALLOC(type, num)        \
-    ((type *)malloc(sizeof(type) * (num)))
-#define REALLOC(type, obj, num) \
-    ((type *)realloc(obj, sizeof(type) * (num)))
+#define ALLOC(type, num) ((type *)malloc(sizeof(type) * (num)))
+#define REALLOC(type, obj, num) ((type *)realloc(obj, sizeof(type) * (num)))
 #else
 /* Use replacements that call MMoutOfMemory if allocation fails. */
-#define ALLOC(type, num)        \
-    ((type *)MMalloc(sizeof(type) * (size_t)(num)))
-#define REALLOC(type, obj, num) \
-    ((type *)MMrealloc((obj), sizeof(type) * (size_t)(num)))
+#define ALLOC(type, num) ((type *)MMalloc(sizeof(type) * (size_t)(num)))
+#define REALLOC(type, obj, num)                                                \
+  ((type *)MMrealloc((obj), sizeof(type) * (size_t)(num)))
 #endif
 /* In any case, set to zero the pointer to freed memory. */
 #define FREE(obj) (free(obj), (obj) = 0)
@@ -174,26 +171,27 @@
 /**
  * @brief Prints message and terminates execution.
  */
-#define fail(why) { \
-        (void)fprintf(stderr, "Fatal error: file %s, line %d\n%s\n", \
-                      __FILE__, __LINE__, why); \
-        (void)fflush(stdout); \
-        abort(); \
-}
+#define fail(why)                                                              \
+  {                                                                            \
+    (void)fprintf(stderr, "Fatal error: file %s, line %d\n%s\n", __FILE__,     \
+                  __LINE__, why);                                              \
+    (void)fflush(stdout);                                                      \
+    abort();                                                                   \
+  }
 
 /* These arguably do NOT belong in util.h */
 /**
  * @brief Computes the absolute value of its argument.
  */
-#define ABS(a)                  ((a) < 0 ? -(a) : (a))
+#define ABS(a) ((a) < 0 ? -(a) : (a))
 /**
  * @brief Computes the maximum of its two arguments.
  */
-#define MAX(a, b)                ((a) > (b) ? (a) : (b))
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
 /**
  * @brief Computes the minimum of its two arguments.
  */
-#define MIN(a, b)                ((a) < (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
 
 /**
  * @brief Type of comparison functions for util_qsort.
@@ -209,7 +207,7 @@ extern void *MMalloc(size_t);
 extern void *MMrealloc(void *, size_t);
 #endif
 extern void MMout_of_memory(size_t);
-extern void (*MMoutOfMemory) (size_t);
+extern void (*MMoutOfMemory)(size_t);
 
 extern long util_cpu_time(void);
 extern long util_cpu_ctime(void);

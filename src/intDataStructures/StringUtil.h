@@ -8,8 +8,8 @@
 #ifndef INTDATASTRUCTURES_STRINGUTIL_H_
 #define INTDATASTRUCTURES_STRINGUTIL_H_
 
-#include <string>
 #include <locale>
+#include <string>
 
 using namespace std;
 
@@ -17,12 +17,12 @@ namespace progression {
 
 class StringUtil {
 public:
-	StringUtil();
-	virtual ~StringUtil();
+  StringUtil();
+  virtual ~StringUtil();
 
-	string toLowerString(string str);
-	string cleanStr(string s);
-	string getStrX(string s, int i);
+  string toLowerString(string str);
+  string cleanStr(string s);
+  string getStrX(string s, int i);
 };
 
 } /* namespace progression */
