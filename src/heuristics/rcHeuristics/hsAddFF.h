@@ -28,7 +28,7 @@ using namespace std;
 
 namespace progression {
 
-enum myHeu { sasAdd, sasFF };
+enum myHeu { sasAdd, sasFF , sasMax};
 
 class hsAddFF {
 public:

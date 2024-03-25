@@ -29,6 +29,7 @@ searchNode *OneQueueWAStarFringe::pop() {
   return top;
 }
 
+// A*在这里，fval = hval * hweight + gval
 void OneQueueWAStarFringe::push(searchNode *n) {
   n->hRand = rand();
   // compute the f values for this search node

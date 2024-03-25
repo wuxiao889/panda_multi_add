@@ -124,10 +124,13 @@ int hsAddFF::getHeuristicValue(bucketSet &s, noDelIntSet &g) {
     reachedBy[f] = NOACTION;
   }
 
+  // 对所有无前提条件的动作
   for (int i = 0; i < m->numPrecLessActions; i++) {
     int ac = m->precLessActions[i];
+    // 对所有动作ac的加性条件fAdd
     for (int iAdd = 0; iAdd < m->numAdds[ac]; iAdd++) {
       int fAdd = m->addLists[ac][iAdd];
+      // 这里或许应该和原来比取最小值
       hValProp[fAdd] = m->actionCosts[ac];
       reachedBy[fAdd] = ac;
       queue->add(hValProp[fAdd], fAdd);
@@ -140,10 +143,14 @@ int hsAddFF::getHeuristicValue(bucketSet &s, noDelIntSet &g) {
     queue->pop();
     if (hValProp[prop] < pVal)
       continue;
+    // 如果目标状态g包含了prop
     if (g.get(prop)) {
+      // 如果所有目标状态都满足了
       if (--numGoals == 0) {
+        // hadd
         if (heuristic == sasAdd) {
           hVal = 0;
+          // 对目标状态g的所有状态启发值求和
           for (int f = g.getFirst(); f >= 0; f = g.getNext()) {
             assert(hValProp[f] != hUnreachable);
             hVal += hValProp[f];
@@ -155,12 +162,15 @@ int hsAddFF::getHeuristicValue(bucketSet &s, noDelIntSet &g) {
         }
       }
     }
+    // 不用容器，很操蛋
     for (int iOp = 0; iOp < m->precToActionSize[prop]; iOp++) {
+      // 动作op前提条件包含了s
       int op = m->precToAction[prop][iOp];
       hType newVal;
       if (this->heuristic == sasFF) {
         newVal = max(hValOp[op], m->actionCosts[op] + pVal);
       } else {
+        // hadd 动作op的启发式值 为 所有前置条件的启发式值值和
         newVal = hValOp[op] + pVal;
       }
 
@@ -181,9 +191,13 @@ int hsAddFF::getHeuristicValue(bucketSet &s, noDelIntSet &g) {
       hValOp[op] = newVal;
 
       assert(hValOp[op] >= 0);
+      // 动作op的所有前提条件都满足了
       if (--numSatPrecs[op] == 0) {
+        // 为什么不用容器
         for (int iF = 0; iF < m->numAdds[op]; iF++) {
+          // 动作op的第iF个add状态
           int f = m->addLists[op][iF];
+          // 如果op(已经加上 op cost)比原来状态f的启发式状态值小
           if (hValOp[op] < hValProp[f]) {
             hValProp[f] = hValOp[op];
             reachedBy[f] = op; // only used by FF
