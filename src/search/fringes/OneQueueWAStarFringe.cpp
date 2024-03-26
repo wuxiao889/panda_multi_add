@@ -21,7 +21,7 @@ bool TieBreakingNodePointerComaprator::operator()(const searchNode *a,
   }
 }
 
-bool OneQueueWAStarFringe::isEmpty() { return fringe.empty(); }
+bool OneQueueWAStarFringe::isEmpty() { return fringe.empty() && fringe1.empty(); }
 
 searchNode *OneQueueWAStarFringe::pop() {
   searchNode *top = fringe.top();
@@ -51,6 +51,9 @@ void OneQueueWAStarFringe::push(searchNode *n) {
 
   fringe.push(n);
 }
+void OneQueueWAStarFringe::push1(searchNode *n) {
+  fringe1.push_back(n);
+}
 
 void OneQueueWAStarFringe::printTypeInfo() {
   if (aStarOption == gValNone) {
@@ -79,3 +82,13 @@ void OneQueueWAStarFringe::printTypeInfo() {
 }
 
 int OneQueueWAStarFringe::size() { return fringe.size(); }
+
+void OneQueueWAStarFringe::make_heap() {
+  for (auto n : fringe1) {
+    if (!n->goalReachable) {
+      continue;
+    }
+    push(n);
+  }
+  fringe1.clear();
+}

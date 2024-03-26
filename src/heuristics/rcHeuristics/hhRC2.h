@@ -22,11 +22,11 @@ enum eEstimate { estDISTANCE, estMIXED, estCOSTS };
 
 template <class ClassicalHeuristic> class hhRC2 : public Heuristic {
 private:
-  noDelIntSet gset;
-  noDelIntSet intSet;
-  bucketSet s0set;
+  noDelIntSet gset; // para
+  bucketSet s0set; // para
   RCModelFactory *factory;
-  bool storeCuts = true;
+  // 
+  bool storeCuts = false;
   IntUtil iu;
   const eEstimate estimate = estDISTANCE;
   const bool correctTaskCount = true;
@@ -78,7 +78,6 @@ public:
     this->sasH = new ClassicalHeuristic(heuristicModel);
     this->s0set.init(heuristicModel->numStateBits);
     this->gset.init(heuristicModel->numStateBits);
-    this->intSet.init(heuristicModel->numStateBits);
 
     if (typeid(ClassicalHeuristic) == typeid(hsLmCut)) {
       useAdmissibleCostEstimate = (correctTaskCount && (estimate == estCOSTS));
@@ -109,7 +108,11 @@ public:
     }
   }
 
-  virtual ~hhRC2() { delete factory; }
+  virtual ~hhRC2() { 
+    if(factory != nullptr) {
+      delete factory;
+    }
+  }
 
   string getDescription() {
     return "hhRC2(" + sasH->getDescription() + ";" +
@@ -129,6 +132,7 @@ public:
 
   void setHeuristicValue(searchNode *n, searchNode *parent, int absTask,
                          int method) override {
+    // 此处都为安全的
     n->heuristicValue[index] = this->setHeuristicValue(n);
     if (n->goalReachable) {
       n->goalReachable = (n->heuristicValue[index] != UNREACHABLE);
@@ -139,6 +143,7 @@ public:
     int hval = 0;
 
     // get facts holding in s0
+    // s0set可以栈上
     s0set.clear();
     for (int i = 0; i < htn->numStateBits; i++) {
       if (n->state[i]) {

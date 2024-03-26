@@ -11,12 +11,12 @@ using namespace std::chrono;
 
 class Heuristic {
 protected:
-  int index;
-  Model *htn;
+  const Model *const htn;
+  const int index;
   static std::vector<long long> exec_times;
 
 public:
-  Heuristic(Model *htnModel, int index);
+  Heuristic(Model *htnModel, int index): htn(htnModel), index(index) {}
 
   // returns textual description of the heuristic for output
   virtual string getDescription() = 0;

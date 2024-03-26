@@ -29,10 +29,6 @@
 
 namespace progression {
 
-PriorityQueueSearch::PriorityQueueSearch() {
-  // TODO Auto-generated constructor stub
-}
-
 PriorityQueueSearch::~PriorityQueueSearch() {
   // TODO Auto-generated destructor stub
 }

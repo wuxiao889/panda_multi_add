@@ -16,8 +16,13 @@
 #include "../heuristics/landmarks/hhLMCount.h"
 #endif
 
+#include <../Debug.h>
 #include <Heuristic.h>
+#include <ThreadPool.h>
+#include <atomic>
 #include <cassert>
+#include <functional>
+#include <future>
 #include <iomanip>
 #include <sys/time.h>
 
@@ -25,7 +30,7 @@ namespace progression {
 
 class PriorityQueueSearch {
 public:
-  PriorityQueueSearch();
+  PriorityQueueSearch(ThreadPool *pool) : pool(pool) {}
 
   virtual ~PriorityQueueSearch();
 
@@ -69,10 +74,19 @@ public:
     assert(!fringe.isEmpty());
 
     int numSearchNodes = 1;
-
+    int preSearchNodes = numSearchNodes;
     while (!fringe.isEmpty()) {
+      {
+        std::unique_lock<std::mutex> lock(mu);
+        while (task_count > 0) {
+          cond.wait(lock);
+        }
+      }
+      fringe.make_heap();
       searchNode *n = fringe.pop();
       assert(n != nullptr);
+      cout << "numSearchNodes + " << numSearchNodes - preSearchNodes << " = "
+           << numSearchNodes << endl;
 
       // check whether we have seen this search node
       if (!suboptimalSearch && !visitedList.insertVisi(n)) {
@@ -94,10 +108,12 @@ public:
       }
 
       if (n->numAbstract == 0) {
+        int applicables = 0;
         for (int i = 0; i < n->numPrimitive; i++) {
           if (!htn->isApplicable(n, n->unconstraintPrimitive[i]->task))
             continue;
           searchNode *n2 = htn->apply(n, i);
+          applicables++;
           numSearchNodes++;
           if (!n2->goalReachable) { // progression has detected unsol
             delete n2;
@@ -113,30 +129,47 @@ public:
 
           // compute the heuristic
           n2->heuristicValue = new int[hLength];
-          for (int ih = 0; ih < hLength; ih++) {
-            if (n2->goalReachable) {
-              bool found = false;
-              for (int jh = 0; jh < ih; jh++) {
-                if (hF[ih] == hF[jh]) {
-                  n2->heuristicValue[ih] = n2->heuristicValue[jh];
-                  found = true;
+          {
+            std::lock_guard<std::mutex> lk(mu);
+            task_count++;
+          }
+
+          // 此处，不可传n2,method等的引用
+          task_type task = [&, n, n2](Heuristic **hF) {
+            for (int ih = 0; ih < hLength; ih++) {
+              if (n2->goalReachable) {
+                // 我不用多启发函数
+                bool found = false;
+                for (int jh = 0; jh < ih; jh++) {
+                  if (hF[ih] == hF[jh]) {
+                    n2->heuristicValue[ih] = n2->heuristicValue[jh];
+                    found = true;
+                  }
                 }
+
+                if (!found) {
+                  hF[ih]->setHeuristicValue(n2, n,
+                                            n->unconstraintPrimitive[i]->task);
+                }
+              } else {
+                n2->heuristicValue[ih] = UNREACHABLE;
               }
-
-              if (!found)
-                hF[ih]->setHeruAndCalcTime(n2, n,
-                                           n->unconstraintPrimitive[i]->task);
-            } else {
-              n2->heuristicValue[ih] = UNREACHABLE;
+              {
+                std::lock_guard<std::mutex> lk(mu);
+                task_count--;
+              }
+              cond.notify_one();
             }
-          }
+          };
+          pool->enque(task);
 
-          if (!n2->goalReachable) { // heuristic has detected unsol
-            if ((suboptimalSearch) && (visitedList.canDeleteProcessedNodes)) {
-              delete n2;
-            }
-            continue;
-          }
+          /* if (!n2->goalReachable) { // heuristic has detected unsol */
+          /*   if ((suboptimalSearch) && (visitedList.canDeleteProcessedNodes))
+           * { */
+          /*     delete n2; */
+          /*   } */
+          /*   continue; */
+          /* } */
 
           assert(n2->goalReachable ||
                  (!htn->isGoal(n2))); // otherwise the heuristic is not save
@@ -150,8 +183,9 @@ public:
               break;
           }
 
-          fringe.push(n2);
+          fringe.push1(n2);
         }
+        DEBUG(cout << "find " << applicables << " primitive actions." << endl);
       }
 
       if (!continueSearch)
@@ -162,6 +196,8 @@ public:
         int task = n->unconstraintAbstract[decomposedStep]->task;
 
         for (int i = 0; i < htn->numMethodsForTask[task]; i++) {
+          DEBUG(cout << "find " << htn->numMethodsForTask[task]
+                     << " abstrack methods." << endl);
           int method = htn->taskToMethods[task][i];
           searchNode *n2 = htn->decompose(n, decomposedStep, method);
           numSearchNodes++;
@@ -179,22 +215,35 @@ public:
 
           // compute the heuristic
           n2->heuristicValue = new int[hLength];
-          for (int ih = 0; ih < hLength; ih++) {
-            if (n2->goalReachable) {
-              bool found = false;
-              for (int jh = 0; jh < ih; jh++) {
-                if (hF[ih] == hF[jh]) {
-                  n2->heuristicValue[ih] = n2->heuristicValue[jh];
-                  found = true;
-                }
-              }
-
-              if (!found)
-                hF[ih]->setHeruAndCalcTime(n2, n, decomposedStep, method);
-            } else {
-              n2->heuristicValue[ih] = UNREACHABLE;
-            }
+          {
+            std::lock_guard<std::mutex> lk(mu);
+            task_count++;
           }
+
+          task_type task = ([&, n, n2, method, decomposedStep](Heuristic **hF) {
+            for (int ih = 0; ih < hLength; ih++) {
+              if (n2->goalReachable) {
+                bool found = false;
+                for (int jh = 0; jh < ih; jh++) {
+                  if (hF[ih] == hF[jh]) {
+                    n2->heuristicValue[ih] = n2->heuristicValue[jh];
+                    found = true;
+                  }
+                }
+
+                if (!found)
+                  hF[ih]->setHeuristicValue(n2, n, decomposedStep, method);
+              } else {
+                n2->heuristicValue[ih] = UNREACHABLE;
+              }
+            }
+            {
+              std::lock_guard<std::mutex> lk(mu);
+              task_count--;
+            }
+            cond.notify_one();
+          });
+          pool->enque(task);
 
           if (!n2->goalReachable) { // heuristic has detected unsol
             if ((suboptimalSearch) && (visitedList.canDeleteProcessedNodes)) {
@@ -214,7 +263,7 @@ public:
             if (!continueSearch)
               break;
           }
-          fringe.push(n2);
+          fringe.push1(n2);
         }
       }
 
@@ -254,6 +303,7 @@ public:
       if (visitedList.canDeleteProcessedNodes)
         delete n;
     }
+
     gettimeofday(&tp, NULL);
     currentT = tp.tv_sec * 1000 + tp.tv_usec / 1000;
     double searchtime = double(currentT - startT);
@@ -286,8 +336,7 @@ public:
          << " one modification methods" << endl;
     cout << "- and       " << (htn->numEffLessProg)
          << " progressions of effectless actions" << endl;
-    cout << "- Generated "
-         << int(double(numSearchNodes) / (currentT - startT) * 1000)
+    cout << "- Generated " << int(double(numSearchNodes) / (searchtime)*1000)
          << " nodes per second" << endl;
     cout << "- Final fringe contains " << fringe.size() << " nodes" << endl;
     if (this->foundSols > 1) {
@@ -317,14 +366,14 @@ public:
     } else {
       cout << "- Status: Proven unsolvable" << endl;
     }
-    Heuristic::printInfo();
-    cout << "The heuristic function execution time accounts for "
-         << Heuristic::getSum() / 1e3 / searchtime * 100
-         << "% of the total time." << endl;
+
+    /* Heuristic::printInfo(); */
+    /* cout << "The heuristic function execution time accounts for " */
+    /*      << Heuristic::getSum() / 1e3 / searchtime * 100 */
+    /*      << "% of the total time." << endl; */
 
 #ifndef NDEBUG
-        cout
-         << "Deleting elements in fringe..." << endl;
+    cout << "Deleting elements in fringe..." << endl;
     while (!fringe.isEmpty()) {
       searchNode *n = fringe.pop();
       delete n;
@@ -342,6 +391,10 @@ private:
   int solImproved = 0;
   long firstSolTime = 0;
   long bestSolTime = 0;
+  ThreadPool *pool;
+  std::mutex mu;
+  std::condition_variable cond;
+  int task_count = 0;
 };
 
 } /* namespace progression */

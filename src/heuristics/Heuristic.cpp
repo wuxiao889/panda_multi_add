@@ -8,10 +8,6 @@
 
 std::vector<long long> Heuristic::exec_times;
 
-Heuristic::Heuristic(Model *htnModel, int index) {
-  this->htn = htnModel;
-  this->index = index;
-}
 void Heuristic::setHeruAndCalcTime(searchNode *n, searchNode *parent,
                                    int absTask, int method) {
   auto start = high_resolution_clock::now();
@@ -40,6 +36,7 @@ void Heuristic::printInfo() {
   auto totalTime = accumulate(exec_times.begin(), exec_times.end(), 0LL);
   auto avgTime = totalTime / exec_times.size();
 
+  cout << "Execution times: " << exec_times.size() << endl;
   cout << "Max execution time: " << maxTime << " microseconds" << endl;
   cout << "Min execution time: " << minTime << " microseconds" << endl;
   cout << "Total execution time: " << totalTime << " microseconds" << endl;

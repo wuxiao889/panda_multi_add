@@ -30,7 +30,8 @@ public:
   int size();
 
   void printTypeInfo();
-
+  void push1(searchNode *n);
+  void make_heap();
 private:
   aStar aStarOption;
   int hWeight;
@@ -38,6 +39,7 @@ private:
   priority_queue<searchNode *, vector<searchNode *>,
                  TieBreakingNodePointerComaprator>
       fringe;
+  std::vector<searchNode*> fringe1;
 };
 
 #endif // PANDAPIENGINE_ONEQUEUEWASTARFRINGE_H

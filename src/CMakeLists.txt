@@ -19,8 +19,8 @@ endif()
 # Compiler flags.
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra ")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wno-unused-parameter -Wno-attributes -fno-inline")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -ggdb -g3")
-
+#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -ggdb -g3")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g -fsanitize=thread -fno-omit-frame-pointer")
 message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 message(STATUS "CMAKE_CXX_FLAGS_DEBUG: ${CMAKE_CXX_FLAGS_DEBUG}")
 message(STATUS "CMAKE_EXE_LINKER_FLAGS: ${CMAKE_EXE_LINKER_FLAGS}")
@@ -32,7 +32,7 @@ find_program(GENGETOPT gengetopt)
 
 ## required for IBM's CPLEX in order to force it to use newer names for the std headers
 add_definitions(-DIL_STD)
-list(APPEND compiler_flags -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -pedantic "$<$<CONFIG:RELEASE>:-O2;-lpthread>")
+list(APPEND compiler_flags -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -pedantic -lpthread "$<$<CONFIG:RELEASE>:-O2;-lpthread>")
 
 if (CPLEX_SOURCE_DIR)
 	list(APPEND linker_flags "$<$<CONFIG:DEBUG>:-lpthread;-g>" "$<$<CONFIG:RELEASE>:-flto;-lpthread>")
@@ -83,7 +83,8 @@ add_custom_command(
 
 
 file(GLOB main_SRC "*.h" "*.cpp" "cmdline.c")
- 
+message(STATUS "compiler_flags: ${compiler_flags}")
+message(STATUS "linker_flags: ${linker_flags}")
 # create the executable
 add_executable (pandaPIengine ${main_SRC} "cmdline.c" "cmdline.h")
 target_compile_options(pandaPIengine PUBLIC ${compiler_flags})
@@ -95,6 +96,7 @@ target_link_libraries(pandaPIengine PUBLIC heuristics)
 target_link_libraries(pandaPIengine PUBLIC hrc)
 target_link_libraries(pandaPIengine PUBLIC hlm)
 target_link_libraries(pandaPIengine PUBLIC translation)
+target_link_libraries(pandaPIengine PUBLIC pthread)
 
 if (BDD)
 	### Build Cudd

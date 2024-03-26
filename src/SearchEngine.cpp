@@ -19,6 +19,7 @@
 
 #include "Debug.h"
 #include "Model.h"
+#include "ThreadPool.h"
 
 #include "Invariants.h"
 #include "interactivePlanner.h"
@@ -336,6 +337,15 @@ int main(int argc, char *argv[]) {
     }
     Heuristic **heuristics = new Heuristic *[hLength];
     map<pair<string, map<string, string>>, int> heuristics_so_far;
+
+    // only for rc2
+    int threads = 4;
+    Heuristic ***heu_thread = new Heuristic **[threads];
+    for (int i = 0; i < threads; i++) {
+      heu_thread[i] = new Heuristic *[hLength];
+    }
+    ThreadPool* pool = new ThreadPool(threads, heu_thread);
+
     for (int i = 0; i < hLength; i++) {
       auto [hName, args] =
           parse_heuristic_with_arguments_from_braced_expression(
@@ -392,21 +402,39 @@ int main(int argc, char *argv[]) {
         if (correct_task_count_string == "no")
           correctTaskCount = false;
 
-        if (subName == "lmc")
+        if (subName == "lmc") {
           heuristics[i] =
               new hhRC2<hsLmCut>(htn, i, estimate, correctTaskCount);
-        else if (subName == "add") {
+          for (int t = 0; t < threads; t++) {
+            heu_thread[t][i] =
+                new hhRC2<hsLmCut>(htn, i, estimate, correctTaskCount);
+          }
+        } else if (subName == "add") {
           heuristics[i] =
               new hhRC2<hsAddFF>(htn, i, estimate, correctTaskCount);
           ((hhRC2<hsAddFF> *)heuristics[i])->sasH->heuristic = sasAdd;
+          for (int t = 0; t < threads; t++) {
+            heu_thread[t][i] =
+                new hhRC2<hsAddFF>(htn, i, estimate, correctTaskCount);
+            ((hhRC2<hsAddFF> *)heuristics[i])->sasH->heuristic = sasAdd;
+          }
         } else if (subName == "ff") {
           heuristics[i] =
               new hhRC2<hsAddFF>(htn, i, estimate, correctTaskCount);
           ((hhRC2<hsAddFF> *)heuristics[i])->sasH->heuristic = sasFF;
-        } else if (subName == "filter")
+          for (int t = 0; t < threads; t++) {
+            heu_thread[t][i] =
+                new hhRC2<hsAddFF>(htn, i, estimate, correctTaskCount);
+            ((hhRC2<hsAddFF> *)heuristics[i])->sasH->heuristic = sasFF;
+          }
+        } else if (subName == "filter") {
           heuristics[i] =
               new hhRC2<hsFilter>(htn, i, estimate, correctTaskCount);
-        else {
+          for (int t = 0; t < threads; t++) {
+            heu_thread[t][i] =
+                new hhRC2<hsFilter>(htn, i, estimate, correctTaskCount);
+          }
+        } else {
           cout << "No inner heuristic specified for RC. Using FF" << endl;
           heuristics[i] =
               new hhRC2<hsAddFF>(htn, i, estimate, correctTaskCount);
@@ -528,7 +556,7 @@ int main(int argc, char *argv[]) {
     VisitedList visi(htn, noVisitedList, suboptimalSearch, taskHash,
                      taskSequenceHash, topologicalOrdering, orderPairsHash,
                      layerHash, allowGIcheck, allowParalleSequencesMode);
-    PriorityQueueSearch search;
+    PriorityQueueSearch search(pool);
     OneQueueWAStarFringe fringe(aStarType, aStarWeight, hLength);
 
     bool printPlan = !args_info.noPlanOutput_flag;
