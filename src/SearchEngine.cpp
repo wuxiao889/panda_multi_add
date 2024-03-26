@@ -339,7 +339,7 @@ int main(int argc, char *argv[]) {
     map<pair<string, map<string, string>>, int> heuristics_so_far;
 
     // only for rc2
-    int threads = 4;
+    int threads = 8;
     Heuristic ***heu_thread = new Heuristic **[threads];
     for (int i = 0; i < threads; i++) {
       heu_thread[i] = new Heuristic *[hLength];
@@ -416,7 +416,7 @@ int main(int argc, char *argv[]) {
           for (int t = 0; t < threads; t++) {
             heu_thread[t][i] =
                 new hhRC2<hsAddFF>(htn, i, estimate, correctTaskCount);
-            ((hhRC2<hsAddFF> *)heuristics[i])->sasH->heuristic = sasAdd;
+            ((hhRC2<hsAddFF> *)heu_thread[t][i])->sasH->heuristic = sasAdd;
           }
         } else if (subName == "ff") {
           heuristics[i] =

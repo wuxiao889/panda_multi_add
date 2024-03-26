@@ -74,19 +74,15 @@ public:
     assert(!fringe.isEmpty());
 
     int numSearchNodes = 1;
-    int preSearchNodes = numSearchNodes;
+    std::vector<std::future<void>> fs;
     while (!fringe.isEmpty()) {
-      {
-        std::unique_lock<std::mutex> lock(mu);
-        while (task_count > 0) {
-          cond.wait(lock);
-        }
+      for(auto &f : fs) {
+        f.get();
       }
+      fs.clear();
       fringe.make_heap();
       searchNode *n = fringe.pop();
       assert(n != nullptr);
-      cout << "numSearchNodes + " << numSearchNodes - preSearchNodes << " = "
-           << numSearchNodes << endl;
 
       // check whether we have seen this search node
       if (!suboptimalSearch && !visitedList.insertVisi(n)) {
@@ -129,10 +125,6 @@ public:
 
           // compute the heuristic
           n2->heuristicValue = new int[hLength];
-          {
-            std::lock_guard<std::mutex> lk(mu);
-            task_count++;
-          }
 
           // 此处，不可传n2,method等的引用
           task_type task = [&, n, n2](Heuristic **hF) {
@@ -154,14 +146,9 @@ public:
               } else {
                 n2->heuristicValue[ih] = UNREACHABLE;
               }
-              {
-                std::lock_guard<std::mutex> lk(mu);
-                task_count--;
-              }
-              cond.notify_one();
             }
           };
-          pool->enque(task);
+          fs.push_back(pool->enque(task));
 
           /* if (!n2->goalReachable) { // heuristic has detected unsol */
           /*   if ((suboptimalSearch) && (visitedList.canDeleteProcessedNodes))
@@ -215,10 +202,6 @@ public:
 
           // compute the heuristic
           n2->heuristicValue = new int[hLength];
-          {
-            std::lock_guard<std::mutex> lk(mu);
-            task_count++;
-          }
 
           task_type task = ([&, n, n2, method, decomposedStep](Heuristic **hF) {
             for (int ih = 0; ih < hLength; ih++) {
@@ -237,13 +220,8 @@ public:
                 n2->heuristicValue[ih] = UNREACHABLE;
               }
             }
-            {
-              std::lock_guard<std::mutex> lk(mu);
-              task_count--;
-            }
-            cond.notify_one();
           });
-          pool->enque(task);
+          fs.push_back(pool->enque(task));
 
           if (!n2->goalReachable) { // heuristic has detected unsol
             if ((suboptimalSearch) && (visitedList.canDeleteProcessedNodes)) {
@@ -394,7 +372,6 @@ private:
   ThreadPool *pool;
   std::mutex mu;
   std::condition_variable cond;
-  int task_count = 0;
 };
 
 } /* namespace progression */
