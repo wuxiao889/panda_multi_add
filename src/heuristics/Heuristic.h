@@ -6,17 +6,27 @@
 #define PANDAPIENGINE_HEURISTIC_H
 
 #include "../Model.h"
+#include <chrono>
+using namespace std::chrono;
 
 class Heuristic {
 protected:
   int index;
   Model *htn;
+  static std::vector<long long> exec_times;
 
 public:
   Heuristic(Model *htnModel, int index);
 
   // returns textual description of the heuristic for output
   virtual string getDescription() = 0;
+
+  void setHeruAndCalcTime(searchNode *n, searchNode *parent,
+                                 int action);
+  void setHeruAndCalcTime(searchNode *n, searchNode *parent, int absTask,
+                                 int method);
+  static void printInfo();
+  static long long getSum();
 
   virtual void setHeuristicValue(searchNode *n, searchNode *parent,
                                  int action) = 0;

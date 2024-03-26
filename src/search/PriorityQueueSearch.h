@@ -124,8 +124,8 @@ public:
               }
 
               if (!found)
-                hF[ih]->setHeuristicValue(n2, n,
-                                          n->unconstraintPrimitive[i]->task);
+                hF[ih]->setHeruAndCalcTime(n2, n,
+                                           n->unconstraintPrimitive[i]->task);
             } else {
               n2->heuristicValue[ih] = UNREACHABLE;
             }
@@ -190,7 +190,7 @@ public:
               }
 
               if (!found)
-                hF[ih]->setHeuristicValue(n2, n, decomposedStep, method);
+                hF[ih]->setHeruAndCalcTime(n2, n, decomposedStep, method);
             } else {
               n2->heuristicValue[ih] = UNREACHABLE;
             }
@@ -256,9 +256,9 @@ public:
     }
     gettimeofday(&tp, NULL);
     currentT = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+    double searchtime = double(currentT - startT);
     cout << "Search Results" << endl;
-    cout << "- Search time " << double(currentT - startT) / 1000 << " seconds"
-         << endl;
+    cout << "- Search time " << searchtime / 1000 << " seconds" << endl;
     cout << "- Visited list time " << visitedList.time / 1000 << " seconds"
          << endl;
     cout << "- Visited list inserts " << visitedList.attemptedInsertions
@@ -317,9 +317,14 @@ public:
     } else {
       cout << "- Status: Proven unsolvable" << endl;
     }
+    Heuristic::printInfo();
+    cout << "The heuristic function execution time accounts for "
+         << Heuristic::getSum() / 1e3 / searchtime * 100
+         << "% of the total time." << endl;
 
 #ifndef NDEBUG
-    cout << "Deleting elements in fringe..." << endl;
+        cout
+         << "Deleting elements in fringe..." << endl;
     while (!fringe.isEmpty()) {
       searchNode *n = fringe.pop();
       delete n;
