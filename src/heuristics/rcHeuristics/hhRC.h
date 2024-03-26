@@ -25,6 +25,7 @@
 #include <set>
 #include <string>
 
+// 这个类是干什么的
 namespace progression {
 template <class ClassicalHeuristic> class hhRC : public Heuristic {
 private:

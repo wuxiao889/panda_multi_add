@@ -34,6 +34,7 @@ private:
   bool useAdmissibleCostEstimate = false;
 
 public:
+  // hsAddFF / hsLmCut
   ClassicalHeuristic *sasH;
   list<LMCutLandmark *> *cuts = new list<LMCutLandmark *>();
 
@@ -174,10 +175,12 @@ public:
       gset.insert(factory->t2bur(t));
     }
 
+    // 此处计算启发值
     hval = this->sasH->getHeuristicValue(s0set, gset);
 
     // the indices of the methods need to be transformed to fit the scheme of
     // the HTN model (as opposed to the rc model)
+    // 似乎是lmcut用的
     if ((storeCuts) && (hval != UNREACHABLE)) {
       this->cuts = this->sasH->cuts;
       for (LMCutLandmark *storedcut : *cuts) {
@@ -217,22 +220,6 @@ public:
         }
       }
     }
-
-    /*
-    for(LMCutLandmark* lm :  *cuts) {
-        cout << "cut: {";
-        for (int i = 0; i < lm->size; i++) {
-            if(lm->isAction(i)) {
-                cout << this->htn->taskNames[lm->lm[i]];
-            } else {
-                cout << this->htn->methodNames[lm->lm[i]];
-            }
-            if (i < lm->size - 1) {
-                cout << ", ";
-            }
-        }
-        cout << "}" << endl;
-    }*/
 
     if (correctTaskCount) {
       if (hval != UNREACHABLE) {
